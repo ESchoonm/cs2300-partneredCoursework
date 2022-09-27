@@ -71,6 +71,7 @@ class Board {
      * printGameBoard, prints out the gameBoard using "O", "X", and "-"
      */
     public void printGameBoard() {
+        System.out.println("GameBoard: ");
         // print out the gameBoard
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
