@@ -64,10 +64,11 @@ public class eschoonm_khorning_assignment2 {
         	//display current board and results
         	board.printGameBoard();
         	displayScore(board);
+        	System.out.println();
         }
         
       
-       
+       inputMoves.close();
     }
     
     /**
