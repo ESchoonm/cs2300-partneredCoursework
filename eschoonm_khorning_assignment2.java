@@ -6,8 +6,11 @@ import java.io.IOException;
 
 public class eschoonm_khorning_assignment2 {
     public static void main(String[] args) throws IOException {
+    	
+    	final int[] PLAYERS = {1, 2};
 
-        ArrayList<Double> slopes; // arraylist for the slopes previously calculated
+
+        ArrayList<Double> slopes = new ArrayList<>(); // arraylist for the slopes previously calculated
         
         //create and open the test file for reading 
         String fileName = "p2-1.txt";
@@ -16,17 +19,44 @@ public class eschoonm_khorning_assignment2 {
         
         int boardSize = inputMoves.nextInt(); //gives the NxN board dimensions
         int K = inputMoves.nextInt(); // past # of turns we are comparing start/end cells
+        Board board = new Board(boardSize); //creates the game board with given dimensions
         
-        Board board = new Board(boardSize);
+        //keeps track of whether either player has played an invalid perpendicular move
+        boolean p1Perp = false;
+        boolean p2Perp = false;
+        
+        //Player 1 starts- this keeps track of whose turn it is
+        int whoseTurn = PLAYERS[0];
+        
         
         //loop that runs until there are no more moves in the file
         while(inputMoves.hasNext()) {
+        	
+        	//reads the starting/ending cell coordinates from file
         	int sr = inputMoves.nextInt();
         	int sc = inputMoves.nextInt();
         	int er = inputMoves.nextInt();
         	int ec = inputMoves.nextInt();
         	
+        	boolean validCell = isValidCell(sr, sc, er, ec, K);
         	
+        	if(validCell) {
+	        	double currentSlope = calculateSlope(sr, sc, er, ec);
+	        	boolean perp = isPerpendicular(currentSlope, slopes);
+	        	
+	        	//records if a player attempted a perpendicular line
+	        	//this could be a little method too
+	        	if (perp) {
+	        		if(whoseTurn == PLAYERS[0]) {
+	        			p1Perp = perp;
+	        		}
+	        		else {
+	        			p2Perp = perp;
+	        		}
+	        	}
+        	}
+        	
+        	whoseTurn = determinePlayerTurn(whoseTurn, PLAYERS);
         	
         	
         	board.printGameBoard();
@@ -34,6 +64,25 @@ public class eschoonm_khorning_assignment2 {
         
       
        
+    }
+    
+    /**
+     * determines which player's turn it is on the next round
+     * 
+     * @param currentPlayer //this is the player who just had their turn
+     * @param players //array of our players' numbers
+     */
+    public static int determinePlayerTurn(int currentPlayer, int[] players) {
+
+    	int nextTurn = 0;
+    	
+    	if(currentPlayer == players[0]) {
+    		nextTurn = players[1];
+    	}
+    	else {
+    		nextTurn = players[0];
+    	}
+    	return nextTurn;
     }
 
     /**
@@ -45,20 +94,11 @@ public class eschoonm_khorning_assignment2 {
         board.printGameBoard();
     }
 
-    /**
-     * Check Perpendicular, checks to see if the play being made is
-     * perpendicular to any previous plays
-     * 
-     * @return
-     */
-    public static Boolean checkPerpendicular(ArrayList<Double> slopes, double calculatedSlope) {
-        // need to implement this
-        return false;
-    }
 
     /**
-     * This function takes the point read in from the file, and will return the
-     * slope
+     * @author KHorning
+     * This function takes the coordinates read in from the file, and calculates 
+     * the slope of the resulting line
      * 
      * @param sr //starting row
      * @param sc //strarting column
@@ -67,8 +107,9 @@ public class eschoonm_khorning_assignment2 {
      * @return
      */
     public static double calculateSlope(int sr, int sc, int er, int ec) {
-        // need to implement this
-        return 0;
+
+    	double slope = (ec - sc)/(er - sr);
+        return slope;
     }
     
     /**
@@ -103,16 +144,20 @@ public class eschoonm_khorning_assignment2 {
     	
     	boolean isPerp = false;
     	
-    	//perpendicular lines have slopes that are the negative reciprocals of each other
-    	//so we calculate the negative reciprocal of the player's line
-    	double perpLine = -1 / lineSlope;
-    	
-    	//checks each slope in the array against the perpendicular slope
-    	//sets flag to true if a match is found
-    	for(int i = 0; i < allLines.size(); i++) {
-    		if(perpLine == allLines.get(i)) {
-    			isPerp = true;
-    		}
+    	//only does comparison if ArrayList is not empty; otherwise, flag is automatically false
+    	if(allLines.size() != 0) {
+    		
+	    	//perpendicular lines have slopes that are the negative reciprocals of each other
+	    	//so we calculate the negative reciprocal of the player's line
+	    	double perpLine = -1 / lineSlope;
+	    	
+	    	//checks each slope in the array against the perpendicular slope
+	    	//sets flag to true if a match is found
+	    	for(int i = 0; i < allLines.size(); i++) {
+	    		if(perpLine == allLines.get(i)) {
+	    			isPerp = true;
+	    		}
+	    	}
     	}
     	
     	return isPerp;
