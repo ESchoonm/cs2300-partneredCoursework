@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
+import java.util.Queue;
 
 
 public class eschoonm_khorning_assignment2 {
@@ -21,6 +22,7 @@ public class eschoonm_khorning_assignment2 {
         int K = inputMoves.nextInt(); // past # of turns we are comparing start/end cells
         Board board = new Board(boardSize); //creates the game board with given dimensions
         
+        
         //keeps track of whether either player has played an invalid perpendicular move
         boolean p1Perp = false;
         boolean p2Perp = false;
@@ -30,7 +32,7 @@ public class eschoonm_khorning_assignment2 {
         
         
         //loop that runs until there are no more moves in the file
-        while(inputMoves.hasNext()) {
+        while(inputMoves.hasNext() && (p1Perp == false || p2Perp == false )) {
         	
         	//reads the starting/ending cell coordinates from file
         	int sr = inputMoves.nextInt();
@@ -67,6 +69,7 @@ public class eschoonm_khorning_assignment2 {
     }
     
     /**
+     * @author KHorning
      * determines which player's turn it is on the next round
      * 
      * @param currentPlayer //this is the player who just had their turn
@@ -101,7 +104,7 @@ public class eschoonm_khorning_assignment2 {
      * the slope of the resulting line
      * 
      * @param sr //starting row
-     * @param sc //strarting column
+     * @param sc //starting column
      * @param er //ending row
      * @param ec //ending column
      * @return
@@ -176,7 +179,46 @@ public class eschoonm_khorning_assignment2 {
         slopes.add(slope); // adds the slope
     }
 
-}
+    /**
+     * @author KHorning
+     * Iterates through the game board and counts the scores of both players
+     * 
+     * @param gameBoard //the game board with all current moves
+     */
+    public static void displayScore(Board gameBoard) {
+    	
+    	//creates counters for player scores and empty cellls
+    	int p1Score = 0;
+    	int p2Score = 0;
+    	int openCells = 0;
+    	
+    	//nested for loops to iterate through entire game board
+    	for(int i = 0; i < gameBoard.getSize(); i++) {
+    		for (int j = 0; j < gameBoard.getSize(); j++) {
+    			
+    			int currentCell = gameBoard.getValueAtCell(i, j);
+    			
+    			if(currentCell == 0) {
+    				openCells++;
+    			}
+    			else if(currentCell == 1) {
+    				p1Score++;
+    			}
+    			else if(currentCell == 2) {
+    				p2Score++;
+    			}
+    		}
+    	}
+    	
+    	System.out.println("Player 1 Score: " + p1Score);
+    	System.out.println("Player 2 Score: " + p2Score);
+    	System.out.println("Empty Cells Remaining: " + openCells);
+        
+    }//displayScore
+    
+    
+    
+}//assignment2
 
 class Board {
    private int[][] gameBoard; // my thoughts we to use and int array with 0 being, initial, 1, "O", 2, "X"
@@ -213,4 +255,13 @@ class Board {
         // adds their line, after already being verified
         // unless we want to do verification in this method
     }
+    
+	//returns the value at given indices
+	public int getValueAtCell(int row, int column) {
+		return gameBoard[row][column];
+	}
+	
+	public int getSize() {
+		return size;
+	}
 }
