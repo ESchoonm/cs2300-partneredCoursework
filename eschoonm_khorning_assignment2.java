@@ -19,6 +19,7 @@ public class eschoonm_khorning_assignment2 {
         
         Board board = new Board(boardSize);
         
+        //loop that runs until there are no more moves in the file
         while(inputMoves.hasNext()) {
         	int sr = inputMoves.nextInt();
         	int sc = inputMoves.nextInt();
@@ -69,6 +70,53 @@ public class eschoonm_khorning_assignment2 {
         // need to implement this
         return 0;
     }
+     * This function takes the line read in from the file and checks to see if
+     * the move is valid by checking it against the starting/ending points of the
+     * last K turns
+     * 
+     * @param sr //starting row
+     * @param sc //strarting column
+     * @param er //ending row
+     * @param ec //ending column
+     * @param K //number of past turns
+     * @return
+     */
+    public static boolean isValidCell(int sr, int sc, int er, int ec, int K) {
+    	boolean valid = false;
+    	
+    	return valid;
+    }
+    
+    
+    /**
+     * @author KHorning
+     * This function takes the line slope of the player's current move and checks to see if
+     * it is perpendicular to any other lines on the board
+     * 
+     * @param lineSlope //slope of the line of the player's current move
+     * @param allLines //ArrayList containing the slopes of all lines played so far
+     * @return
+     */
+    public static boolean isPerpendicular(double lineSlope, ArrayList<Double> allLines) {
+    	
+    	boolean isPerp = false;
+    	
+    	//perpendicular lines have slopes that are the negative reciprocals of each other
+    	//so we calculate the negative reciprocal of the player's line
+    	double perpLine = -1 / lineSlope;
+    	
+    	//checks each slope in the array against the perpendicular slope
+    	//sets flag to true if a match is found
+    	for(int i = 0; i < allLines.size(); i++) {
+    		if(perpLine == allLines.get(i)) {
+    			isPerp = true;
+    		}
+    	}
+    	
+    	return isPerp;
+    }//isPerpendicular
+    
+    
 
     /**
      * AddSlope function takes the arrayList containing the slopes, and
