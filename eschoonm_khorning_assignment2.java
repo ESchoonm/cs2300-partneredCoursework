@@ -59,12 +59,12 @@ public class eschoonm_khorning_assignment2 {
 }
 
 class Board {
-    int[][] gameBoard; // my thoughts we to use and int array with 0 being, initial, 1, "O", 2, "X"
-    int size;
+   private int[][] gameBoard; // my thoughts we to use and int array with 0 being, initial, 1, "O", 2, "X"
+   private int size;
 
     Board(int size) {
+    	this.size = size;
         gameBoard = new int[size][size];
-        this.size = size;
     }
 
     /**
