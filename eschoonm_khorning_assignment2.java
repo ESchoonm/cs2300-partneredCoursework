@@ -9,6 +9,7 @@ public class eschoonm_khorning_assignment2 {
 
         ArrayList<Double> slopes; // arraylist for the slopes previously calculated
         
+        //create and open the test file for reading 
         String fileName = "p2-1.txt";
         File moves = new File(fileName);
         Scanner inputMoves = new Scanner(moves);
@@ -25,11 +26,13 @@ public class eschoonm_khorning_assignment2 {
         	int ec = inputMoves.nextInt();
         	
         	
+        	
+        	
+        	board.printGameBoard();
         }
         
-        
-        board.printGameBoard();
-        // printBoard(board);
+      
+       
     }
 
     /**
