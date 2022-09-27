@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class eschoonm_klastname_assignment2 {
+public class eschoonm_khorning_assignment2 {
     public static void main(String[] args) {
         Board board = new Board(5);
         board.printGameBoard();
