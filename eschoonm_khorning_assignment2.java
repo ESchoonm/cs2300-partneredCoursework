@@ -8,7 +8,7 @@ import java.util.Queue;
 public class eschoonm_khorning_assignment2 {
     public static void main(String[] args) throws IOException {
     	
-    	final int[] PLAYERS = {1, 2};
+    	final int[] PLAYERS = {1, 2}; //constant containing the players' corresponding numbers
 
 
         ArrayList<Double> slopes = new ArrayList<>(); // arraylist for the slopes previously calculated
@@ -61,7 +61,9 @@ public class eschoonm_khorning_assignment2 {
         	whoseTurn = determinePlayerTurn(whoseTurn, PLAYERS);
         	
         	
+        	//display current board and results
         	board.printGameBoard();
+        	displayScore(board);
         }
         
       
@@ -219,6 +221,12 @@ public class eschoonm_khorning_assignment2 {
     
     
 }//assignment2
+
+
+
+
+
+
 
 class Board {
    private int[][] gameBoard; // my thoughts we to use and int array with 0 being, initial, 1, "O", 2, "X"
