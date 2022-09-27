@@ -1,9 +1,5 @@
 import java.util.ArrayList;
 
-/*
-
-*/
-
 public class eschoonm_khorning_assignment2 {
     public static void main(String[] args) {
 
@@ -14,6 +10,11 @@ public class eschoonm_khorning_assignment2 {
         // printBoard(board);
     }
 
+    /**
+     * printBoard, prints out the board, with the values inside the Board object
+     * 
+     * @param board
+     */
     public static void printBoard(Board board) {
         board.printGameBoard();
     }
@@ -66,6 +67,9 @@ class Board {
         this.size = size;
     }
 
+    /**
+     * printGameBoard, prints out the gameBoard using "O", "X", and "-"
+     */
     public void printGameBoard() {
         // print out the gameBoard
         for (int i = 0; i < size; i++) {
