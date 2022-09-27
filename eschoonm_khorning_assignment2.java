@@ -1,11 +1,33 @@
 import java.util.ArrayList;
+import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
+
 
 public class eschoonm_khorning_assignment2 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
 
         ArrayList<Double> slopes; // arraylist for the slopes previously calculated
-
-        Board board = new Board(5);
+        
+        String fileName = "p2-1.txt";
+        File moves = new File(fileName);
+        Scanner inputMoves = new Scanner(moves);
+        
+        int boardSize = inputMoves.nextInt(); //gives the NxN board dimensions
+        int K = inputMoves.nextInt(); // past # of turns we are comparing start/end cells
+        
+        Board board = new Board(boardSize);
+        
+        while(inputMoves.hasNext()) {
+        	int sr = inputMoves.nextInt();
+        	int sc = inputMoves.nextInt();
+        	int er = inputMoves.nextInt();
+        	int ec = inputMoves.nextInt();
+        	
+        	
+        }
+        
+        
         board.printGameBoard();
         // printBoard(board);
     }
