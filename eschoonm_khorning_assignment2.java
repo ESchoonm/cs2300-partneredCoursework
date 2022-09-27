@@ -70,6 +70,8 @@ public class eschoonm_khorning_assignment2 {
         // need to implement this
         return 0;
     }
+    
+    /**
      * This function takes the line read in from the file and checks to see if
      * the move is valid by checking it against the starting/ending points of the
      * last K turns
