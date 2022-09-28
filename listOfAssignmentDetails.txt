@@ -9,7 +9,7 @@ D  Completed
 
 -p GameBoard Class
     -E printGameBoard method
-    -  Save/ Add move to GameBoard
+    -E  Save/ Add move to GameBoard
 
 -p Main Class
     -  Main

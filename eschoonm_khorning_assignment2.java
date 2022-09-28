@@ -48,9 +48,7 @@ public class eschoonm_khorning_assignment2 {
             boolean validCell = isValidCell(sr, sc, er, ec, K, startCells, endCells);
 
             if (validCell) {
-                // TODO: make sure that the slope is defined, not vertical or horizontal
-                // my thought would be to use NaN in java, which marks a value as not a number
-                // TODO: check for vertical slope, create method to account for that
+
                 double currentSlope = calculateSlope(sr, sc, er, ec);
                 boolean perp = isPerpendicular(currentSlope, slopes);
 
@@ -63,6 +61,9 @@ public class eschoonm_khorning_assignment2 {
                         p2Perp = perp;
                     }
                 } else {
+                    // adds the previous slope to the arraylist of slopes
+                    addSlope(slopes, currentSlope);
+                    // updates the queues, based off of q values, to check start and end values
                     updateQueues(sc, sr, er, ec, startCells, endCells, K);
                 }
             }
@@ -114,6 +115,9 @@ public class eschoonm_khorning_assignment2 {
      *         calculates
      *         the slope of the resulting line
      * 
+     *         eschoonm
+     *         added the checking for vertical slope, to return NaN to the function
+     * 
      * @param sr //starting row
      * @param sc //starting column
      * @param er //ending row
@@ -122,7 +126,13 @@ public class eschoonm_khorning_assignment2 {
      */
     public static double calculateSlope(int sr, int sc, int er, int ec) {
 
-        double slope = (ec - sc) / (er - sr);
+        boolean isVertical = checkForVertical(sr, sc, er, ec);
+        double slope;
+        if (!isVertical) {
+            slope = (ec - sc) / (er - sr);
+        } else {
+            slope = Double.NaN;
+        }
         return slope;
     }
 
@@ -194,7 +204,12 @@ public class eschoonm_khorning_assignment2 {
             // perpendicular lines have slopes that are the negative reciprocals of each
             // other
             // so we calculate the negative reciprocal of the player's line
-            double perpLine = -1 / lineSlope;
+            double perpLine = 0;
+            if (lineSlope != Double.NaN && lineSlope != 0) {
+                perpLine = -1 / lineSlope;
+            } else if (lineSlope == 0) {
+                perpLine = Double.NaN;
+            }
 
             // checks each slope in the array against the perpendicular slope
             // sets flag to true if a match is found
@@ -289,6 +304,22 @@ public class eschoonm_khorning_assignment2 {
         }
     }// updateQueues
 
+    /**
+     * This function checks for a vertical slope and returns a boolean
+     * 
+     * @param sr
+     * @param sc
+     * @param er
+     * @param ec
+     * @return
+     */
+    public static Boolean checkForVertical(int sr, int sc, int er, int ec) {
+        if (er - sr == 0) {
+            return true; // checks for vertical slope
+        }
+        return false;
+    }
+
 }// assignment2
 
 class Board {
@@ -323,13 +354,16 @@ class Board {
     }// printGameBoard
 
     /**
-     * This function will take the integer array, containing the location of values
-     * to be
-     * highlighted, and change all the values in that array to be the value of the
-     * user making the
-     * move. At this point, validation has already been done.
+     * @author eschoonm
+     *         This function will take the integer array, containing the location of
+     *         values
+     *         to be
+     *         highlighted, and change all the values in that array to be the value
+     *         of the
+     *         user making the
+     *         move. At this point, validation has already been done.
      * 
-     * if user = 1, "O", if user = 2, "X"
+     *         if user = 1, "O", if user = 2, "X"
      * 
      * @param valuesToChange
      * @param user
@@ -337,12 +371,13 @@ class Board {
     public void addMove(int[][] valuesToChange, int user) {
         // changes the board to be with the current user
         // adds their line, after already being verified
-        if (user == 1) {
-            for (int i = 0; i < valuesToChange.length; i++) {
-                // TODO:
-            }
-        } else {
 
+        // valuesToChange[10][2] 10 pairs of boxes to highligh
+        for (int i = 0; i < valuesToChange.length; i++) {
+            int row = valuesToChange[i][0]; // reads in the first value as a row
+            int column = valuesToChange[i][1];// reads in the second value as the column
+
+            gameBoard[row][column] = user; // changes the gameboard to be the current user
         }
 
     }// addMove
