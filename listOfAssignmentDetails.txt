@@ -23,7 +23,8 @@ D  Completed
         # this should include perpendicular, and that start and end cells are empty
 	# I split this into two methods, one for perpendicular and one for start/end cells
 	-D  valid perpendicular
-	-   valid start/end cells
+	-E  valid start/end cells
+        #created another method to be able to adjust the values in the queue, with the value of k
     -  addplay to the GameBoard
     -  determine Winner
         #the one with the most amount of cells covered
