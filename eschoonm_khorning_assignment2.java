@@ -50,6 +50,7 @@ public class eschoonm_khorning_assignment2 {
             if (validCell) {
                 // TODO: make sure that the slope is defined, not vertical or horizontal
                 // my thought would be to use NaN in java, which marks a value as not a number
+                // TODO: check for vertical slope, create method to account for that
                 double currentSlope = calculateSlope(sr, sc, er, ec);
                 boolean perp = isPerpendicular(currentSlope, slopes);
 
@@ -61,9 +62,10 @@ public class eschoonm_khorning_assignment2 {
                     } else {
                         p2Perp = perp;
                     }
+                } else {
+                    updateQueues(sc, sr, er, ec, startCells, endCells, K);
                 }
             }
-            updateQueues(sc, sr, er, ec, startCells, endCells, K);
 
             whoseTurn = determinePlayerTurn(whoseTurn, PLAYERS);
 
@@ -277,11 +279,11 @@ public class eschoonm_khorning_assignment2 {
         endCells.offer(er);
         endCells.offer(ec);
 
-        while (startCells.size() > k) {// updates the queue to only have the last k values
+        while (startCells.size() > 2 * k) {// updates the queue to only have the last k values
             startCells.remove();
             startCells.remove();
         }
-        while (endCells.size() > k) {// updates the queue to only have the last k values
+        while (endCells.size() > 2 * k) {// updates the queue to only have the last k values
             endCells.remove();
             endCells.remove();
         }
@@ -333,9 +335,15 @@ class Board {
      * @param user
      */
     public void addMove(int[][] valuesToChange, int user) {
-        // TODO
         // changes the board to be with the current user
         // adds their line, after already being verified
+        if (user == 1) {
+            for (int i = 0; i < valuesToChange.length; i++) {
+                // TODO:
+            }
+        } else {
+
+        }
 
     }// addMove
 
