@@ -1,6 +1,8 @@
 import java.io.*;
 import java.lang.Math;
 
+//https://www.cs.helsinki.fi/group/goa/mallinnus/lines/bresenh.html
+
 public class algorithm {
     // Java program for Bresenhams Line Generation
 
