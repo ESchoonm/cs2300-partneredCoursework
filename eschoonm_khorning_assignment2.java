@@ -12,8 +12,8 @@ public class eschoonm_khorning_assignment2 {
         final int[] PLAYERS = { 1, 2 }; // constant containing the players' corresponding numbers
 
         ArrayList<Double> slopes = new ArrayList<>(); // arraylist for the slopes previously calculated
-        Queue<Integer> startCells = new LinkedList<>();// Queue containing values to check double starting values
-        Queue<Integer> endCells = new LinkedList<>();
+        Queue<Integer> startCells = new LinkedList<Integer>();// Queue containing values to check double starting values
+        Queue<Integer> endCells = new LinkedList<Integer>();
         // create and open the test file for reading
         String fileName = "p2-1.txt";
         File moves = new File(fileName);
@@ -140,7 +140,8 @@ public class eschoonm_khorning_assignment2 {
      * @param cellQueue //queue containing list of values to check starting values
      * @return
      */
-    public static boolean isValidCell(int sr, int sc, int er, int ec, int K, Queue startCells, Queue endCells) {
+    public static boolean isValidCell(int sr, int sc, int er, int ec, int K, Queue<Integer> startCells,
+            Queue<Integer> endCells) {
         boolean valid = true;
 
         // TODO cant figure out this method yet.
@@ -152,8 +153,8 @@ public class eschoonm_khorning_assignment2 {
 
         // sr,sc is a point that no other starting value can have. Store in an queue,
         // front[sr1, sc1, sr2, sc2, sr3, sc3] back
-        Iterator startIterator = startCells.iterator();// creates an iterator over the startcells queue
-        Iterator endIterator = endCells.iterator();// creates an iterator over the endcells queue
+        Iterator<Integer> startIterator = startCells.iterator();// creates an iterator over the startcells queue
+        Iterator<Integer> endIterator = endCells.iterator();// creates an iterator over the endcells queue
 
         while (startIterator.hasNext() && valid) {// while values to iterate over
             Integer var1 = (Integer) startIterator.next(); // read in the first value
@@ -276,7 +277,8 @@ public class eschoonm_khorning_assignment2 {
      * @param endCells   //queue containing previuos end cells
      * @param k          //number of previous cells saved to verify
      */
-    public static void updateQueues(int sr, int sc, int er, int ec, Queue startCells, Queue endCells, int k) {
+    public static void updateQueues(int sr, int sc, int er, int ec, Queue<Integer> startCells, Queue<Integer> endCells,
+            int k) {
         startCells.offer(sr);// adds values to the queue, as the value has been verified
         startCells.offer(sc);
         endCells.offer(er);
