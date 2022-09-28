@@ -126,12 +126,12 @@ public class eschoonm_khorning_assignment2 {
      */
     public static double calculateSlope(int sr, int sc, int er, int ec) {
 
-        boolean isVertical = checkForVertical(sr, sc, er, ec);
-        double slope;
-        if (!isVertical) {
-            slope = (ec - sc) / (er - sr);
+        boolean isVertical = checkForVertical(sr, sc, er, ec);// checks for vertical slope
+        double slope; // initilizes values
+        if (!isVertical) { // not vertical slope
+            slope = (ec - sc) / (er - sr);// calculate slope
         } else {
-            slope = Double.NaN;
+            slope = Double.NaN;// else, slope is gonna be set to NaN
         }
         return slope;
     }
@@ -189,6 +189,8 @@ public class eschoonm_khorning_assignment2 {
      *         checks to see if
      *         it is perpendicular to any other lines on the board
      * 
+     *         eschoonm, added vertical line compatability
+     * 
      * @param lineSlope //slope of the line of the player's current move
      * @param allLines  //ArrayList containing the slopes of all lines played so far
      * @return
@@ -205,10 +207,10 @@ public class eschoonm_khorning_assignment2 {
             // other
             // so we calculate the negative reciprocal of the player's line
             double perpLine = 0;
-            if (lineSlope != Double.NaN && lineSlope != 0) {
+            if (lineSlope != Double.NaN && lineSlope != 0) {// if the lines slope is not Nan and not 0
                 perpLine = -1 / lineSlope;
-            } else if (lineSlope == 0) {
-                perpLine = Double.NaN;
+            } else if (lineSlope == 0) {// if it is zero
+                perpLine = Double.NaN;// slope is vertical
             }
 
             // checks each slope in the array against the perpendicular slope
