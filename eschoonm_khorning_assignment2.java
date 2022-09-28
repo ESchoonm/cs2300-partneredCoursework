@@ -48,6 +48,8 @@ public class eschoonm_khorning_assignment2 {
             boolean validCell = isValidCell(sr, sc, er, ec, K, startCells, endCells);
 
             if (validCell) {
+                // TODO: make sure that the slope is defined, not vertical or horizontal
+                // my thought would be to use NaN in java, which marks a value as not a number
                 double currentSlope = calculateSlope(sr, sc, er, ec);
                 boolean perp = isPerpendicular(currentSlope, slopes);
 
@@ -94,12 +96,14 @@ public class eschoonm_khorning_assignment2 {
     }
 
     /**
-     * printBoard, prints out the board, with the values inside the Board object
+     * @Author eschoonm
+     *         printBoard, prints out the board, with the values inside the Board
+     *         object
      * 
      * @param board
      */
     public static void printBoard(Board board) {
-        board.printGameBoard();
+        board.printGameBoard();// calls the method in Board
     }
 
     /**
@@ -116,10 +120,6 @@ public class eschoonm_khorning_assignment2 {
      */
     public static double calculateSlope(int sr, int sc, int er, int ec) {
 
-        // TODO, double check we arent dividing by 0.
-        if (er == sr) {// meaning divide by zero, where slope is undefined
-            // What do we want to do here
-        }
         double slope = (ec - sc) / (er - sr);
         return slope;
     }
@@ -143,13 +143,6 @@ public class eschoonm_khorning_assignment2 {
     public static boolean isValidCell(int sr, int sc, int er, int ec, int K, Queue<Integer> startCells,
             Queue<Integer> endCells) {
         boolean valid = true;
-
-        // TODO cant figure out this method yet.
-        // Gonna need a queue that holds k values, maximum values in the queue is the k
-        // value
-        // add value to queue if valid// gonna need another method for this. I don't
-        // want to do it inside this
-        // one
 
         // sr,sc is a point that no other starting value can have. Store in an queue,
         // front[sr1, sc1, sr2, sc2, sr3, sc3] back
@@ -297,7 +290,7 @@ public class eschoonm_khorning_assignment2 {
 }// assignment2
 
 class Board {
-    private int[][] gameBoard; // my thoughts we to use and int array with 0 being, initial, 1, "O", 2, "X"
+    private int[][] gameBoard; // my thoughts we to use and int array with 0 being initial, 1, "O", 2, "X"
     private int size;
 
     Board(int size) {
@@ -306,31 +299,45 @@ class Board {
     }
 
     /**
-     * printGameBoard, prints out the gameBoard using "O", "X", and "-"
+     * @author eschoonm
+     *         printGameBoard, prints out the gameBoard using "O", "X", and "-"
      */
     public void printGameBoard() {
         System.out.println("GameBoard: ");
         // print out the gameBoard
-        for (int i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-                if (gameBoard[i][j] == 1) {
+        for (int i = 0; i < size; i++) { // for each row
+            for (int j = 0; j < size; j++) { // for every column
+                if (gameBoard[i][j] == 1) { // if the value is 1, print out "O "
                     System.out.print("O ");
                 }
-                if (gameBoard[i][j] == 2) {
+                if (gameBoard[i][j] == 2) {// if the value is 2, print out "X "
                     System.out.print("X ");
                 } else {
-                    System.out.print("- ");
+                    System.out.print("- "); // otherwise -, means no value has been assigned
                 }
             }
-            System.out.println("");
+            System.out.println("");// new line indicating a new row has started
         }
-    }
+    }// printGameBoard
 
-    public void addMove(int[][] values, int user) {
+    /**
+     * This function will take the integer array, containing the location of values
+     * to be
+     * highlighted, and change all the values in that array to be the value of the
+     * user making the
+     * move. At this point, validation has already been done.
+     * 
+     * if user = 1, "O", if user = 2, "X"
+     * 
+     * @param valuesToChange
+     * @param user
+     */
+    public void addMove(int[][] valuesToChange, int user) {
+        // TODO
         // changes the board to be with the current user
         // adds their line, after already being verified
-        // unless we want to do verification in this method
-    }
+
+    }// addMove
 
     // returns the value at given indices
     public int getValueAtCell(int row, int column) {

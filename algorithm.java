@@ -10,10 +10,12 @@ public class algorithm {
     public static void plotPixel(int x1, int y1, int x2,
             int y2, int dx, int dy,
             int decide) {
+
         // pk is initial decision making parameter
         // Note:x1&y1,x2&y2, dx&dy values are interchanged
         // and passed in plotPixel function so
         // it can handle both cases when m>1 & m<1
+
         int pk = 2 * dy - dx;
         for (int i = 0; i <= dx; i++) {
             System.out.println(x1 + "," + y1 + "\n");
