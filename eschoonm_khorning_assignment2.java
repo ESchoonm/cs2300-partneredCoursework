@@ -22,6 +22,7 @@ public class eschoonm_khorning_assignment2 {
         int boardSize = inputMoves.nextInt(); // gives the NxN board dimensions
         int K = inputMoves.nextInt(); // past # of turns we are comparing start/end cells
         Board board = new Board(boardSize); // creates the game board with given dimensions
+        int emptyCells = boardSize * boardSize; //when game starts, all cells on board are empty
 
         // keeps track of whether either player has played an invalid perpendicular move
         boolean p1Perp = false;
@@ -30,8 +31,8 @@ public class eschoonm_khorning_assignment2 {
         // Player 1 starts- this keeps track of whose turn it is
         int whoseTurn = PLAYERS[0];
 
-        // loop that runs until there are no more moves in the file
-        while (inputMoves.hasNext() && (p1Perp == false || p2Perp == false)) {
+        // loop that runs until there are no more moves in the file, or until game board is full
+        while (inputMoves.hasNext() && (p1Perp == false || p2Perp == false) && emptyCells != 0) {
 
             // reads the starting/ending cell coordinates from file
             int sr = inputMoves.nextInt();
@@ -69,6 +70,7 @@ public class eschoonm_khorning_assignment2 {
             }
 
             whoseTurn = determinePlayerTurn(whoseTurn, PLAYERS);
+            emptyCells = countRemainingCells(board);
 
             // display current board and results
             board.printGameBoard();
@@ -248,7 +250,6 @@ public class eschoonm_khorning_assignment2 {
         // creates counters for player scores and empty cellls
         int p1Score = 0;
         int p2Score = 0;
-        int openCells = 0;
 
         // nested for loops to iterate through entire game board
         for (int i = 0; i < gameBoard.getSize(); i++) {
@@ -256,9 +257,7 @@ public class eschoonm_khorning_assignment2 {
 
                 int currentCell = gameBoard.getValueAtCell(i, j);
 
-                if (currentCell == 0) {
-                    openCells++;
-                } else if (currentCell == 1) {
+                if (currentCell == 1) {
                     p1Score++;
                 } else if (currentCell == 2) {
                     p2Score++;
@@ -268,9 +267,36 @@ public class eschoonm_khorning_assignment2 {
 
         System.out.println("Player 1 Score: " + p1Score);
         System.out.println("Player 2 Score: " + p2Score);
-        System.out.println("Empty Cells Remaining: " + openCells);
+        
 
     }// displayScore
+    
+    
+    /**
+     * @author KHorning
+     *         Iterates through the game board and counts empty cells
+     * 
+     * @param gameBoard //the game board with all current moves
+     */
+    public static int countRemainingCells(Board gameBoard) {
+    	
+    	int cells = 0; //counter for empty cells on the game board
+    	
+    	//iterates through game board and increments cell count when an empty cell is found
+    	for (int i = 0; i < gameBoard.getSize(); i++) {
+    		for (int j = 0; j < gameBoard.getSize(); j++) {
+    			
+    			int currentCell = gameBoard.getValueAtCell(i, j);
+    			
+    			if (currentCell == 0) {
+    				cells++;
+    			}
+    		}
+    	}
+    	
+    	return cells;
+    	
+    }//countRemainingCells
 
     /**
      * @author eschoonm
