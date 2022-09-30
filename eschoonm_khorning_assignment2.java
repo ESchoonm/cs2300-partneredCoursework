@@ -93,11 +93,10 @@ public class eschoonm_khorning_assignment2 {
             board.printGameBoard();
             p1Score = countValueOnBoard(board, PLAYERS[0]);
             p2Score = countValueOnBoard(board, PLAYERS[1]);
-            
-            
+
             System.out.println();
         }
-        
+
         determineWinner(p1Score, p2Score);
 
         inputMoves.close();
@@ -269,23 +268,19 @@ public class eschoonm_khorning_assignment2 {
      * @param gameBoard //the game board with all current moves
      */
     public static void determineWinner(int score1, int score2) {
-    	
-    	System.out.println("Player 1 Score: " + score1);
-    	System.out.println("Player 1 Score: " + score2);
 
+        System.out.println("Player 1 Score: " + score1);
+        System.out.println("Player 1 Score: " + score2);
 
-        if(score1 > score2) {
-        	System.out.println("Player 1 Wins");
+        if (score1 > score2) {
+            System.out.println("Player 1 Wins");
 
-        }
-        else if (score1 < score2) {
-        	System.out.println("Player 2 Wins");
-        }
-        else {
-        	System.out.println("It's a tie");
+        } else if (score1 < score2) {
+            System.out.println("Player 2 Wins");
+        } else {
+            System.out.println("It's a tie");
 
         }
-
 
     }// determineWinner
 
