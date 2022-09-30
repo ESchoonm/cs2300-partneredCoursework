@@ -22,7 +22,11 @@ public class eschoonm_khorning_assignment2 {
         int boardSize = inputMoves.nextInt(); // gives the NxN board dimensions
         int K = inputMoves.nextInt(); // past # of turns we are comparing start/end cells
         Board board = new Board(boardSize); // creates the game board with given dimensions
+        
+        
         int emptyCells = boardSize * boardSize; //when game starts, all cells on board are empty
+        int p1Score = 0; //counter for Player 1's score
+        int p2Score = 0; //counter for Player 1's score
 
         // keeps track of whether either player has played an invalid perpendicular move
         boolean p1Perp = false;
@@ -70,11 +74,12 @@ public class eschoonm_khorning_assignment2 {
             }
 
             whoseTurn = determinePlayerTurn(whoseTurn, PLAYERS);
-            emptyCells = countRemainingCells(board);
+            emptyCells = countValueOnBoard(board, 0);
 
             // display current board and results
             board.printGameBoard();
-            displayScore(board);
+            p1Score = countValueOnBoard(board, PLAYERS[0]);
+            p2Score = countValueOnBoard(board, PLAYERS[1]);
             System.out.println();
         }
 
@@ -274,21 +279,22 @@ public class eschoonm_khorning_assignment2 {
     
     /**
      * @author KHorning
-     *         Iterates through the game board and counts empty cells
+     *         Iterates through the game board and counts whatever value is sent in
+     *         It can count each player's score, as well as the number of remaining empty cells
      * 
      * @param gameBoard //the game board with all current moves
      */
-    public static int countRemainingCells(Board gameBoard) {
+    public static int countValueOnBoard(Board gameBoard, int countedValue) {
     	
-    	int cells = 0; //counter for empty cells on the game board
+    	int cells = 0; //counter for specified cells on game board
     	
-    	//iterates through game board and increments cell count when an empty cell is found
+    	//iterates through game board and increments cell count when a matching cell is found
     	for (int i = 0; i < gameBoard.getSize(); i++) {
     		for (int j = 0; j < gameBoard.getSize(); j++) {
     			
     			int currentCell = gameBoard.getValueAtCell(i, j);
     			
-    			if (currentCell == 0) {
+    			if (currentCell == countedValue) {
     				cells++;
     			}
     		}
