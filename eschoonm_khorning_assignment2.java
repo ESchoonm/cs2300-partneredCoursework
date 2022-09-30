@@ -34,10 +34,10 @@ public class eschoonm_khorning_assignment2 {
         while (inputMoves.hasNext() && (p1Perp == false || p2Perp == false)) {
 
             // reads the starting/ending cell coordinates from file
-            int sr = inputMoves.nextInt();
-            int sc = inputMoves.nextInt();
-            int er = inputMoves.nextInt();
-            int ec = inputMoves.nextInt();
+            int sr = inputMoves.nextInt() - 1;
+            int sc = inputMoves.nextInt() - 1;
+            int er = inputMoves.nextInt() - 1;
+            int ec = inputMoves.nextInt() - 1;
 
             // test queues, need to write function that includes k however
             // startCells.offer(2);
@@ -65,6 +65,19 @@ public class eschoonm_khorning_assignment2 {
                     addSlope(slopes, currentSlope);
                     // updates the queues, based off of q values, to check start and end values
                     updateQueues(sc, sr, er, ec, startCells, endCells, K);
+                    int dr = changeInRow(sr, er);
+                    int dc = changeInColumn(sc, ec);
+                    ArrayList<Integer[]> valuesToChange = new ArrayList<>();
+                    if (dr > dc) {
+                        // passing argument as 0 to plot(x,y)
+                        valuesToChange = brenshamsAlgorithm(sr, sc, er, ec, dr, dc, 0);
+                    }
+                    // if slope is greater than or equal to 1
+                    else {
+                        // passing argument as 1 to plot (y,x)
+                        valuesToChange = brenshamsAlgorithm(sc, sr, ec, er, dr, dc, 1);
+                    }
+                    board.addMove(valuesToChange, whoseTurn);
                 }
             }
 
@@ -316,11 +329,60 @@ public class eschoonm_khorning_assignment2 {
      * @return
      */
     public static Boolean checkForVertical(int sr, int sc, int er, int ec) {
-        if (er - sr == 0) {
+        if (changeInRow(sr, er) == 0) {
             return true; // checks for vertical slope
         }
         return false;
     }
+
+    public static int changeInRow(int sr, int er) {
+        return Math.abs((er - sr));
+    }// changeInRow
+
+    public static int changeInColumn(int sc, int ec) {
+        return Math.abs((ec - sc));
+    }// changeInColumn
+
+    public static ArrayList<Integer[]> brenshamsAlgorithm(int sr, int sc, int er,
+            int ec, int changeInRow, int changeInColumn, int decide) {
+        ArrayList<Integer[]> pointsToHighlight = new ArrayList<>();
+        int pk = 2 * changeInColumn - changeInRow;
+        for (int i = 0; i <= changeInRow; i++) {
+            Integer[] point = { sr, sc };// creates a integer array with the values
+            pointsToHighlight.add(point);// adds that to the arrayList
+            // checking either to decrement or increment the
+            // value if we have to plot from (0,100) to
+            // (100,0)
+            if (sr < er) // if the starting row is less
+                sr++;// increment that value
+            else
+                sr--;// else, decrement the value
+            if (pk < 0) {
+                // decision value will decide to plot
+                // either x1 or y1 in x's position
+                if (decide == 0) {
+                    pk = pk + 2 * changeInColumn;
+                } else
+                    pk = pk + 2 * changeInColumn;
+            } else {
+                if (sc < ec)
+                    sc++;// increment the column value
+                else
+                    sc--;// decrement the column value
+                pk = pk + 2 * changeInColumn - 2 * changeInRow;// value
+            }
+        }
+        // TODO:
+        // int size = pointsToHighlight.size();
+        // if (pointsToHighlight.get(size - 1)[0] != er && pointsToHighlight.get(size -
+        // 1)[1] != ec) {
+        // Integer[] point = { er, ec };
+        // pointsToHighlight.add(point);
+
+        // }
+
+        return pointsToHighlight;
+    }// brenshamsAlgorithm
 
 }// assignment2
 
@@ -370,14 +432,14 @@ class Board {
      * @param valuesToChange
      * @param user
      */
-    public void addMove(int[][] valuesToChange, int user) {
+    public void addMove(ArrayList<Integer[]> valuesToChange, int user) {
         // changes the board to be with the current user
         // adds their line, after already being verified
 
         // valuesToChange[10][2] 10 pairs of boxes to highligh
-        for (int i = 0; i < valuesToChange.length; i++) {
-            int row = valuesToChange[i][0]; // reads in the first value as a row
-            int column = valuesToChange[i][1];// reads in the second value as the column
+        for (int i = 0; i < valuesToChange.size(); i++) {
+            int row = valuesToChange.get(i)[0]; // reads in the first value as a row
+            int column = valuesToChange.get(i)[1];// reads in the second value as the column
 
             gameBoard[row][column] = user; // changes the gameboard to be the current user
         }
