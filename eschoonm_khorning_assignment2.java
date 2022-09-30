@@ -22,11 +22,10 @@ public class eschoonm_khorning_assignment2 {
         int boardSize = inputMoves.nextInt(); // gives the NxN board dimensions
         int K = inputMoves.nextInt(); // past # of turns we are comparing start/end cells
         Board board = new Board(boardSize); // creates the game board with given dimensions
-        
-        
-        int emptyCells = boardSize * boardSize; //when game starts, all cells on board are empty
-        int p1Score = 0; //counter for Player 1's score
-        int p2Score = 0; //counter for Player 1's score
+
+        int emptyCells = boardSize * boardSize; // when game starts, all cells on board are empty
+        int p1Score = 0; // counter for Player 1's score
+        int p2Score = 0; // counter for Player 1's score
 
         // keeps track of whether either player has played an invalid perpendicular move
         boolean p1Perp = false;
@@ -35,7 +34,8 @@ public class eschoonm_khorning_assignment2 {
         // Player 1 starts- this keeps track of whose turn it is
         int whoseTurn = PLAYERS[0];
 
-        // loop that runs until there are no more moves in the file, or until game board is full
+        // loop that runs until there are no more moves in the file, or until game board
+        // is full
         while (inputMoves.hasNext() && (p1Perp == false || p2Perp == false) && emptyCells != 0) {
 
             // reads the starting/ending cell coordinates from file
@@ -82,7 +82,7 @@ public class eschoonm_khorning_assignment2 {
                         // passing argument as 1 to plot (y,x)
                         // valuesToChange = brenshamsAlgorithm(sc, sr, ec, er, dr, dc, 1);
                     }
-                    board.addMove(valuesToChange, whoseTurn);
+                    // board.addMove(valuesToChange, whoseTurn);
                 }
             }
 
@@ -285,37 +285,37 @@ public class eschoonm_khorning_assignment2 {
 
         System.out.println("Player 1 Score: " + p1Score);
         System.out.println("Player 2 Score: " + p2Score);
-        
 
     }// displayScore
-    
-    
+
     /**
      * @author KHorning
      *         Iterates through the game board and counts whatever value is sent in
-     *         It can count each player's score, as well as the number of remaining empty cells
+     *         It can count each player's score, as well as the number of remaining
+     *         empty cells
      * 
      * @param gameBoard //the game board with all current moves
      */
     public static int countValueOnBoard(Board gameBoard, int countedValue) {
-    	
-    	int cells = 0; //counter for specified cells on game board
-    	
-    	//iterates through game board and increments cell count when a matching cell is found
-    	for (int i = 0; i < gameBoard.getSize(); i++) {
-    		for (int j = 0; j < gameBoard.getSize(); j++) {
-    			
-    			int currentCell = gameBoard.getValueAtCell(i, j);
-    			
-    			if (currentCell == countedValue) {
-    				cells++;
-    			}
-    		}
-    	}
-    	
-    	return cells;
-    	
-    }//countRemainingCells
+
+        int cells = 0; // counter for specified cells on game board
+
+        // iterates through game board and increments cell count when a matching cell is
+        // found
+        for (int i = 0; i < gameBoard.getSize(); i++) {
+            for (int j = 0; j < gameBoard.getSize(); j++) {
+
+                int currentCell = gameBoard.getValueAtCell(i, j);
+
+                if (currentCell == countedValue) {
+                    cells++;
+                }
+            }
+        }
+
+        return cells;
+
+    }// countRemainingCells
 
     /**
      * @author eschoonm
@@ -417,7 +417,7 @@ public class eschoonm_khorning_assignment2 {
     // return pointsToHighlight;
     // }// brenshamsAlgorithm
 
-    // }// assignment2
+}// assignment2
 
 class Board {
     private int[][] gameBoard; // my thoughts we to use and int array with 0 being initial, 1, "O", 2, "X"
