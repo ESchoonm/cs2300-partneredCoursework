@@ -93,8 +93,12 @@ public class eschoonm_khorning_assignment2 {
             board.printGameBoard();
             p1Score = countValueOnBoard(board, PLAYERS[0]);
             p2Score = countValueOnBoard(board, PLAYERS[1]);
+            
+            
             System.out.println();
         }
+        
+        determineWinner(p1Score, p2Score);
 
         inputMoves.close();
     }
@@ -259,34 +263,31 @@ public class eschoonm_khorning_assignment2 {
 
     /**
      * @author KHorning
-     *         Iterates through the game board and counts the scores of both players
+     *         Compares the players' scores and determines who the winner is
+     *         Also accounts for a tie
      * 
      * @param gameBoard //the game board with all current moves
      */
-    public static void displayScore(Board gameBoard) {
+    public static void determineWinner(int score1, int score2) {
+    	
+    	System.out.println("Player 1 Score: " + score1);
+    	System.out.println("Player 1 Score: " + score2);
 
-        // creates counters for player scores and empty cellls
-        int p1Score = 0;
-        int p2Score = 0;
 
-        // nested for loops to iterate through entire game board
-        for (int i = 0; i < gameBoard.getSize(); i++) {
-            for (int j = 0; j < gameBoard.getSize(); j++) {
+        if(score1 > score2) {
+        	System.out.println("Player 1 Wins");
 
-                int currentCell = gameBoard.getValueAtCell(i, j);
+        }
+        else if (score1 < score2) {
+        	System.out.println("Player 2 Wins");
+        }
+        else {
+        	System.out.println("It's a tie");
 
-                if (currentCell == 1) {
-                    p1Score++;
-                } else if (currentCell == 2) {
-                    p2Score++;
-                }
-            }
         }
 
-        System.out.println("Player 1 Score: " + p1Score);
-        System.out.println("Player 2 Score: " + p2Score);
 
-    }// displayScore
+    }// determineWinner
 
     /**
      * @author KHorning
