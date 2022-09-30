@@ -70,12 +70,12 @@ public class eschoonm_khorning_assignment2 {
                     ArrayList<Integer[]> valuesToChange = new ArrayList<>();
                     if (dr > dc) {
                         // passing argument as 0 to plot(x,y)
-                        valuesToChange = brenshamsAlgorithm(sr, sc, er, ec, dr, dc, 0);
+                        // valuesToChange = brenshamsAlgorithm(sr, sc, er, ec, dr, dc, 0);
                     }
                     // if slope is greater than or equal to 1
                     else {
                         // passing argument as 1 to plot (y,x)
-                        valuesToChange = brenshamsAlgorithm(sc, sr, ec, er, dr, dc, 1);
+                        // valuesToChange = brenshamsAlgorithm(sc, sr, ec, er, dr, dc, 1);
                     }
                     board.addMove(valuesToChange, whoseTurn);
                 }
@@ -343,48 +343,49 @@ public class eschoonm_khorning_assignment2 {
         return Math.abs((ec - sc));
     }// changeInColumn
 
-    public static ArrayList<Integer[]> brenshamsAlgorithm(int sr, int sc, int er,
-            int ec, int changeInRow, int changeInColumn, int decide) {
-        ArrayList<Integer[]> pointsToHighlight = new ArrayList<>();
-        int pk = 2 * changeInColumn - changeInRow;
-        for (int i = 0; i <= changeInRow; i++) {
-            Integer[] point = { sr, sc };// creates a integer array with the values
-            pointsToHighlight.add(point);// adds that to the arrayList
-            // checking either to decrement or increment the
-            // value if we have to plot from (0,100) to
-            // (100,0)
-            if (sr < er) // if the starting row is less
-                sr++;// increment that value
-            else
-                sr--;// else, decrement the value
-            if (pk < 0) {
-                // decision value will decide to plot
-                // either x1 or y1 in x's position
-                if (decide == 0) {
-                    pk = pk + 2 * changeInColumn;
-                } else
-                    pk = pk + 2 * changeInColumn;
-            } else {
-                if (sc < ec)
-                    sc++;// increment the column value
-                else
-                    sc--;// decrement the column value
-                pk = pk + 2 * changeInColumn - 2 * changeInRow;// value
-            }
-        }
-        // TODO:
-        // int size = pointsToHighlight.size();
-        // if (pointsToHighlight.get(size - 1)[0] != er && pointsToHighlight.get(size -
-        // 1)[1] != ec) {
-        // Integer[] point = { er, ec };
-        // pointsToHighlight.add(point);
+    // public static ArrayList<Integer[]> brenshamsAlgorithm(int sr, int sc, int er,
+    // int ec, int changeInRow, int changeInColumn, int decide) {
+    // ArrayList<Integer[]> pointsToHighlight = new ArrayList<>();
+    // int pk = 2 * changeInColumn - changeInRow;
+    // for (int i = 0; i <= changeInRow; i++) {
+    // Integer[] point = { sr, sc };// creates a integer array with the values
+    // pointsToHighlight.add(point);// adds that to the arrayList
+    // // checking either to decrement or increment the
+    // // value if we have to plot from (0,100) to
+    // // (100,0)
+    // if (sr < er) // if the starting row is less
+    // sr++;// increment that value
+    // else
+    // sr--;// else, decrement the value
+    // if (pk < 0) {
+    // // decision value will decide to plot
+    // // either x1 or y1 in x's position
+    // if (decide == 0) {
+    // pk = pk + 2 * changeInColumn;
+    // } else
+    // pk = pk + 2 * changeInColumn;
+    // } else {
+    // if (sc < ec)
+    // sc++;// increment the column value
+    // else
+    // sc--;// decrement the column value
+    // pk = pk + 2 * changeInColumn - 2 * changeInRow;// value
+    // }
+    // }
+    // // TODO:
+    // // int size = pointsToHighlight.size();
+    // // if (pointsToHighlight.get(size - 1)[0] != er && pointsToHighlight.get(size
+    // -
+    // // 1)[1] != ec) {
+    // // Integer[] point = { er, ec };
+    // // pointsToHighlight.add(point);
 
-        // }
+    // // }
 
-        return pointsToHighlight;
-    }// brenshamsAlgorithm
+    // return pointsToHighlight;
+    // }// brenshamsAlgorithm
 
-}// assignment2
+    // }// assignment2
 
 class Board {
     private int[][] gameBoard; // my thoughts we to use and int array with 0 being initial, 1, "O", 2, "X"
