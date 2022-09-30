@@ -430,8 +430,7 @@ class Board {
             for (int j = 0; j < size; j++) { // for every column
                 if (gameBoard[i][j] == 1) { // if the value is 1, print out "O "
                     System.out.print("O ");
-                }
-                if (gameBoard[i][j] == 2) {// if the value is 2, print out "X "
+                } else if (gameBoard[i][j] == 2) {// if the value is 2, print out "X "
                     System.out.print("X ");
                 } else {
                     System.out.print("- "); // otherwise -, means no value has been assigned
