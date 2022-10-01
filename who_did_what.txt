@@ -5,12 +5,11 @@ Evie
     add play to Gameboard
     determine which cells are highlighted
         * brenshamsAlgorithm
-    in isPerpendicular method - added check for vertical line
     add slope to queue of slopes, with k value
     isvertical method
     change inRow and change in column
     saveToFile method
-    
+
 Kacy
     Control method
     Read in Files
