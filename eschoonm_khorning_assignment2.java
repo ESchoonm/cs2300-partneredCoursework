@@ -16,8 +16,7 @@ public class eschoonm_khorning_assignment2 {
         ArrayList<Integer[]> startCells = new ArrayList<>();// Queue containing values to check double starting values
         ArrayList<Integer[]> endCells = new ArrayList<>();
 
-        System.out.println("Please enter the full pathname, including the file name: " +
-                "For Example, /home/eschoonm/filename.txt");
+        System.out.println("Please enter the full pathname, or just the filename, and it will be created in this file");
         Scanner scanner = new Scanner(System.in);
         String destinationFile = scanner.nextLine().trim();
         File destFile = new File(destinationFile);
