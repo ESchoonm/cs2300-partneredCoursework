@@ -127,7 +127,7 @@ public class eschoonm_khorning_assignment2 {
             }
         }
 
-        //update the number of empty cells on the board
+        // update the number of empty cells on the board
         emptyCells = countValueOnBoard(gameBoard, 0);
 
         // display current board
