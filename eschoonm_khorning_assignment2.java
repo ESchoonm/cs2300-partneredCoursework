@@ -80,7 +80,7 @@ public class eschoonm_khorning_assignment2 {
                     // if slope is greater than or equal to 1
                     else {
                         // passing argument as 1 to plot (y,x)
-                        valuesToChange = brenshamsAlgorithm(sc, sr, ec, er, dr, dc, 1);
+                        valuesToChange = brenshamsAlgorithm(sc, sr, ec, er, dc, dr, 1);
                     }
                     board.addMove(valuesToChange, whoseTurn);
                 }
@@ -360,8 +360,13 @@ public class eschoonm_khorning_assignment2 {
         ArrayList<Integer[]> pointsToHighlight = new ArrayList<>();
         int pk = 2 * changeInColumn - changeInRow;
         for (int i = 0; i <= changeInRow; i++) {
-            Integer[] point = { sr, sc };// creates a integer array with the values
-            pointsToHighlight.add(point);// adds that to the arrayList
+            if (decide == 0) {
+                Integer[] point = { sr, sc };// creates a integer array with the values
+                pointsToHighlight.add(point);// adds that to the arrayList
+            } else {
+                Integer[] point = { sc, sr };// creates a integer array with the values
+                pointsToHighlight.add(point);// adds that to the arrayList
+            }
             // checking either to decrement or increment the
             // value if we have to plot from (0,100) to
             // (100,0)
@@ -372,10 +377,7 @@ public class eschoonm_khorning_assignment2 {
             if (pk < 0) {
                 // decision value will decide to plot
                 // either x1 or y1 in x's position
-                if (decide == 0) {
-                    pk = pk + 2 * changeInColumn;
-                } else
-                    pk = pk + 2 * changeInColumn;
+                pk = pk + 2 * changeInColumn;
             } else {
                 if (sc < ec)
                     sc++;// increment the column value

@@ -18,7 +18,11 @@ public class algorithm {
 
         int pk = 2 * dy - dx;
         for (int i = 0; i <= dx; i++) {
-            System.out.println(x1 + "," + y1 + "\n");
+            if (decide == 0) {
+                System.out.println(x1 + "," + y1 + "\n");
+            } else {
+                System.out.println(y1 + "," + x1 + "\n");
+            }
             // checking either to decrement or increment the
             // value if we have to plot from (0,100) to
             // (100,0)
@@ -29,10 +33,7 @@ public class algorithm {
             if (pk < 0) {
                 // decision value will decide to plot
                 // either x1 or y1 in x's position
-                if (decide == 0) {
-                    pk = pk + 2 * dy;
-                } else
-                    pk = pk + 2 * dy;
+                pk = pk + 2 * dy;
             } else {
                 if (y1 < y2)
                     y1++;
@@ -45,7 +46,7 @@ public class algorithm {
 
     // Driver code
     public static void main(String[] args) {
-        int x1 = 100, y1 = 110, x2 = 125, y2 = 120, dx, dy,
+        int x1 = 1, y1 = 0, x2 = 3, y2 = 4, dx, dy,
                 pk;
         dx = Math.abs(x2 - x1);
         dy = Math.abs(y2 - y1);
