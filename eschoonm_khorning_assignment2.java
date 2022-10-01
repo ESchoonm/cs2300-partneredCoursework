@@ -11,11 +11,11 @@ public class eschoonm_khorning_assignment2 {
 
         final int[] PLAYERS = { 1, 2 }; // constant containing the players' corresponding numbers
 
-        ArrayList<Double> slopes = new ArrayList<>(); // arraylist for the slopes previously calculated
-        Queue<Integer> startCells = new LinkedList<Integer>();// Queue containing values to check double starting values
-        Queue<Integer> endCells = new LinkedList<Integer>();
+        Queue<Double> slopes = new LinkedList<Double>(); // arraylist for the slopes previously calculated
+        ArrayList<Integer[]> startCells = new ArrayList<>();// Queue containing values to check double starting values
+        ArrayList<Integer[]> endCells = new ArrayList<>();
         // create and open the test file for reading
-        String fileName = "p2-1.txt";
+        String fileName = "p2-2.txt";
         File moves = new File(fileName);
         Scanner inputMoves = new Scanner(moves);
 
@@ -60,6 +60,7 @@ public class eschoonm_khorning_assignment2 {
                 // records if a player attempted a perpendicular line
                 // this could be a little method too
                 if (perp) {
+                    System.out.println("SLOPE IS PERPENDICULAR, NO CHANGE______");
                     if (whoseTurn == PLAYERS[0]) {
                         p1Perp = perp;
                     } else {
@@ -67,22 +68,22 @@ public class eschoonm_khorning_assignment2 {
                     }
                 } else {
                     // adds the previous slope to the arraylist of slopes
-                    addSlope(slopes, currentSlope);
+                    addSlope(slopes, currentSlope, K);
                     // updates the queues, based off of q values, to check start and end values
-                    updateQueues(sc, sr, er, ec, startCells, endCells, K);
+                    updateListswithValidPoint(sr, sc, er, ec, startCells, endCells);
                     int dr = changeInRow(sr, er);
                     int dc = changeInColumn(sc, ec);
                     ArrayList<Integer[]> valuesToChange = new ArrayList<>();
                     if (dr > dc) {
                         // passing argument as 0 to plot(x,y)
-                        // valuesToChange = brenshamsAlgorithm(sr, sc, er, ec, dr, dc, 0);
+                        valuesToChange = brenshamsAlgorithm(sr, sc, er, ec, dr, dc, 0);
                     }
                     // if slope is greater than or equal to 1
                     else {
                         // passing argument as 1 to plot (y,x)
-                        // valuesToChange = brenshamsAlgorithm(sc, sr, ec, er, dr, dc, 1);
+                        valuesToChange = brenshamsAlgorithm(sc, sr, ec, er, dc, dr, 1);
                     }
-                    // board.addMove(valuesToChange, whoseTurn);
+                    board.addMove(valuesToChange, whoseTurn);
                 }
             }
 
@@ -93,15 +94,14 @@ public class eschoonm_khorning_assignment2 {
             board.printGameBoard();
             p1Score = countValueOnBoard(board, PLAYERS[0]);
             p2Score = countValueOnBoard(board, PLAYERS[1]);
-            
-            
+
             System.out.println();
         }
-        
+
         determineWinner(p1Score, p2Score);
 
         inputMoves.close();
-    }
+    }// main
 
     /**
      * @author KHorning
@@ -176,31 +176,21 @@ public class eschoonm_khorning_assignment2 {
      * @param cellQueue //queue containing list of values to check starting values
      * @return
      */
-    public static boolean isValidCell(int sr, int sc, int er, int ec, int K, Queue<Integer> startCells,
-            Queue<Integer> endCells) {
+    public static boolean isValidCell(int sr, int sc, int er, int ec, int K, ArrayList<Integer[]> startCells,
+            ArrayList<Integer[]> endCells) {
         boolean valid = true;
-
         // sr,sc is a point that no other starting value can have. Store in an queue,
         // front[sr1, sc1, sr2, sc2, sr3, sc3] back
-        Iterator<Integer> startIterator = startCells.iterator();// creates an iterator over the startcells queue
-        Iterator<Integer> endIterator = endCells.iterator();// creates an iterator over the endcells queue
-
-        while (startIterator.hasNext() && valid) {// while values to iterate over
-            Integer var1 = (Integer) startIterator.next(); // read in the first value
-            Integer var2 = (Integer) startIterator.next();// read in the second value
-
-            if (var1 == sr && var2 == sc) {// if those two values match
-                System.out.print("REPEATED STARTING VALUE_______\n");
-                valid = false;
+        for (int i = 0; i < startCells.size(); i++) {
+            if (startCells.get(i)[0] == sr && startCells.get(i)[1] == sc) {
+                System.out.println("REPEATED START VALUE_______________");
+                return false;
             }
         }
-        while (endIterator.hasNext() && valid) {// while values to iterate over
-            Integer var1 = (Integer) endIterator.next();// read in the first value from queue
-            Integer var2 = (Integer) endIterator.next();// read in the second value from queue
-
-            if (var1 == er && var2 == ec) {// check to see if the values match the ending values
-                System.out.print("REPEATED ENDING VALUE___________\n");
-                valid = false;// if yes, set to false, double value
+        for (int i = 0; i < endCells.size(); i++) {
+            if (endCells.get(i)[0] == sr && endCells.get(i)[1] == sc) {
+                System.out.println("REPEATED END VALUE_______________");
+                return false;
             }
         }
 
@@ -219,13 +209,13 @@ public class eschoonm_khorning_assignment2 {
      * @param allLines  //ArrayList containing the slopes of all lines played so far
      * @return
      */
-    public static boolean isPerpendicular(double lineSlope, ArrayList<Double> allLines) {
+    public static boolean isPerpendicular(double lineSlope, Queue<Double> slopesToCheck) {
 
         boolean isPerp = false;
 
         // only does comparison if ArrayList is not empty; otherwise, flag is
         // automatically false
-        if (allLines.size() != 0) {
+        if (slopesToCheck.size() != 0) {
 
             // perpendicular lines have slopes that are the negative reciprocals of each
             // other
@@ -237,10 +227,11 @@ public class eschoonm_khorning_assignment2 {
                 perpLine = Double.NaN;// slope is vertical
             }
 
-            // checks each slope in the array against the perpendicular slope
+            // checks each slope in the queue against the perpendicular slope
             // sets flag to true if a match is found
-            for (int i = 0; i < allLines.size(); i++) {
-                if (perpLine == allLines.get(i)) {
+            Iterator<Double> slopeIterator = slopesToCheck.iterator();
+            while (slopeIterator.hasNext()) {
+                if (perpLine == slopeIterator.next()) {
                     isPerp = true;
                 }
             }
@@ -251,14 +242,18 @@ public class eschoonm_khorning_assignment2 {
 
     /**
      * @author eschoonm
-     *         AddSlope function takes the arrayList containing the slopes, and
+     *         AddSlope function takes the Queue containing the slopes, and
      *         adds the new slope to the end
      * 
      * @param slopes
      * @param slope
      */
-    public static void addSlope(ArrayList<Double> slopes, Double slope) {
-        slopes.add(slope); // adds the slope
+    public static void addSlope(Queue<Double> slopes, Double slope, int k) {
+        slopes.add(slope);
+
+        while (slopes.size() > k) {
+            slopes.poll();
+        }
     }// addSlope
 
     /**
@@ -269,23 +264,19 @@ public class eschoonm_khorning_assignment2 {
      * @param gameBoard //the game board with all current moves
      */
     public static void determineWinner(int score1, int score2) {
-    	
-    	System.out.println("Player 1 Score: " + score1);
-    	System.out.println("Player 1 Score: " + score2);
 
+        System.out.println("Player 1 Score: " + score1);
+        System.out.println("Player 2 Score: " + score2);
 
-        if(score1 > score2) {
-        	System.out.println("Player 1 Wins");
+        if (score1 > score2) {
+            System.out.println("Player 1 Wins");
 
-        }
-        else if (score1 < score2) {
-        	System.out.println("Player 2 Wins");
-        }
-        else {
-        	System.out.println("It's a tie");
+        } else if (score1 < score2) {
+            System.out.println("Player 2 Wins");
+        } else {
+            System.out.println("It's a tie");
 
         }
-
 
     }// determineWinner
 
@@ -321,35 +312,24 @@ public class eschoonm_khorning_assignment2 {
     /**
      * @author eschoonm
      * 
-     *         This function readjusts the two main queues that contain a list of
-     *         previous start and end
-     *         cells, and adjusts it with the k value. Includes the update of new
-     *         valid values, and removal of
-     *         old values
+     *         This function adds the two points to arraylist start cells and
+     *         arraylist endcells
      * 
      * @param sr         //starting row
      * @param sc         //starting column
      * @param er         //ending row
      * @param ec         //ending column
-     * @param startCells //Queue containing previous start cells
-     * @param endCells   //queue containing previuos end cells
-     * @param k          //number of previous cells saved to verify
+     * @param startCells //ArrayList containing previous start cells
+     * @param endCells   //ArrayList containing previuos end cells
      */
-    public static void updateQueues(int sr, int sc, int er, int ec, Queue<Integer> startCells, Queue<Integer> endCells,
-            int k) {
-        startCells.offer(sr);// adds values to the queue, as the value has been verified
-        startCells.offer(sc);
-        endCells.offer(er);
-        endCells.offer(ec);
+    public static void updateListswithValidPoint(int sr, int sc, int er, int ec, ArrayList<Integer[]> startCells,
+            ArrayList<Integer[]> endCells) {
+        Integer[] start = { sr, sc };// creates an array with the values
+        Integer[] end = { er, ec };// createts an array with the values
 
-        while (startCells.size() > 2 * k) {// updates the queue to only have the last k values
-            startCells.remove();
-            startCells.remove();
-        }
-        while (endCells.size() > 2 * k) {// updates the queue to only have the last k values
-            endCells.remove();
-            endCells.remove();
-        }
+        startCells.add(start);// adds them to the start arrayList
+        endCells.add(end);// adds them to the end arraylist
+
     }// updateQueues
 
     /**
@@ -376,47 +356,40 @@ public class eschoonm_khorning_assignment2 {
         return Math.abs((ec - sc));
     }// changeInColumn
 
-    // public static ArrayList<Integer[]> brenshamsAlgorithm(int sr, int sc, int er,
-    // int ec, int changeInRow, int changeInColumn, int decide) {
-    // ArrayList<Integer[]> pointsToHighlight = new ArrayList<>();
-    // int pk = 2 * changeInColumn - changeInRow;
-    // for (int i = 0; i <= changeInRow; i++) {
-    // Integer[] point = { sr, sc };// creates a integer array with the values
-    // pointsToHighlight.add(point);// adds that to the arrayList
-    // // checking either to decrement or increment the
-    // // value if we have to plot from (0,100) to
-    // // (100,0)
-    // if (sr < er) // if the starting row is less
-    // sr++;// increment that value
-    // else
-    // sr--;// else, decrement the value
-    // if (pk < 0) {
-    // // decision value will decide to plot
-    // // either x1 or y1 in x's position
-    // if (decide == 0) {
-    // pk = pk + 2 * changeInColumn;
-    // } else
-    // pk = pk + 2 * changeInColumn;
-    // } else {
-    // if (sc < ec)
-    // sc++;// increment the column value
-    // else
-    // sc--;// decrement the column value
-    // pk = pk + 2 * changeInColumn - 2 * changeInRow;// value
-    // }
-    // }
-    // // TODO:
-    // // int size = pointsToHighlight.size();
-    // // if (pointsToHighlight.get(size - 1)[0] != er && pointsToHighlight.get(size
-    // -
-    // // 1)[1] != ec) {
-    // // Integer[] point = { er, ec };
-    // // pointsToHighlight.add(point);
+    public static ArrayList<Integer[]> brenshamsAlgorithm(int sr, int sc, int er,
+            int ec, int changeInRow, int changeInColumn, int decide) {
+        ArrayList<Integer[]> pointsToHighlight = new ArrayList<>();
+        int pk = 2 * changeInColumn - changeInRow;
+        for (int i = 0; i <= changeInRow; i++) {
+            if (decide == 0) {
+                Integer[] point = { sr, sc };// creates a integer array with the values
+                pointsToHighlight.add(point);// adds that to the arrayList
+            } else {
+                Integer[] point = { sc, sr };// creates a integer array with the values
+                pointsToHighlight.add(point);// adds that to the arrayList
+            }
+            // checking either to decrement or increment the
+            // value if we have to plot from (0,100) to
+            // (100,0)
+            if (sr < er) // if the starting row is less
+                sr++;// increment that value
+            else
+                sr--;// else, decrement the value
+            if (pk < 0) {
+                // decision value will decide to plot
+                // either x1 or y1 in x's position
+                pk = pk + 2 * changeInColumn;
+            } else {
+                if (sc < ec)
+                    sc++;// increment the column value
+                else
+                    sc--;// decrement the column value
+                pk = pk + 2 * changeInColumn - 2 * changeInRow;// value
+            }
+        }
 
-    // // }
-
-    // return pointsToHighlight;
-    // }// brenshamsAlgorithm
+        return pointsToHighlight;
+    }// brenshamsAlgorithm
 
 }// assignment2
 
@@ -439,10 +412,9 @@ class Board {
         for (int i = 0; i < size; i++) { // for each row
             for (int j = 0; j < size; j++) { // for every column
                 if (gameBoard[i][j] == 1) { // if the value is 1, print out "O "
-                    System.out.print("O ");
-                }
-                if (gameBoard[i][j] == 2) {// if the value is 2, print out "X "
                     System.out.print("X ");
+                } else if (gameBoard[i][j] == 2) {// if the value is 2, print out "X "
+                    System.out.print("O ");
                 } else {
                     System.out.print("- "); // otherwise -, means no value has been assigned
                 }
