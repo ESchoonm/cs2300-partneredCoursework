@@ -10,7 +10,7 @@ import java.io.FileWriter;
 public class eschoonm_khorning_assignment2 {
     public static void main(String[] args) throws IOException {
 
-        // constants for file names
+        // constants for test file names
         final String FILE_P2_1 = "p2-1.txt";
         final String FILE_P2_2 = "p2-2.txt";
         final String FILE_P2_3 = "p2-3.txt";
@@ -127,7 +127,7 @@ public class eschoonm_khorning_assignment2 {
             }
         }
 
-        // whoseTurn = determinePlayerTurn(player1, player2);
+        //update the number of empty cells on the board
         emptyCells = countValueOnBoard(gameBoard, 0);
 
         // display current board
