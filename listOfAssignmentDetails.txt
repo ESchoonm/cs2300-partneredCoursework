@@ -14,7 +14,7 @@ D  Completed
 -p Main Class
     -  Main
     -D  checkPerpendicular Slopes
-    -K endcondition
+    -D  endcondition
         #all cells are filled, or two perpendicular plays in a row
     -K  read input from file
 	#K I started this in a while loop in main, but if there's a way to put it in
@@ -25,14 +25,9 @@ D  Completed
 	-D  valid perpendicular
 	-E  valid start/end cells
         #created another method to be able to adjust the values in the queue, with the value of k
-    -E  addplay to the GameBoard
-    -K  determine Winner
+    -  addplay to the GameBoard
+    -   determine Winner
         #the one with the most amount of cells covered
     K  calculate the slope of line
-    -E calculate which cells are 
-    
-THINGS TO DO
-    Add a control method
-    printGameBoard to File, ask user for file destination. 
-    Test second file, as well
+    -  calculate which cells are highlighted
 
