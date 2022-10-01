@@ -357,8 +357,8 @@ public class eschoonm_khorning_assignment2 {
      *         Compares the players' scores and determines who the winner is
      *         Also accounts for a tie
      * 
-     * @param score1 //player1's final score
-     * @param score2 //player2's final score
+     * @param player1
+     * @param player2
      */
     public static int determineWinner(Player player1, Player player2) {
         int winner = 0;
