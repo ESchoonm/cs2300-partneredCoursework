@@ -15,7 +15,7 @@ public class eschoonm_khorning_assignment2 {
         ArrayList<Integer[]> startCells = new ArrayList<>();// Queue containing values to check double starting values
         ArrayList<Integer[]> endCells = new ArrayList<>();
         // create and open the test file for reading
-        String fileName = "p2-1.txt";
+        String fileName = "p2-2.txt";
         File moves = new File(fileName);
         Scanner inputMoves = new Scanner(moves);
 
@@ -60,6 +60,7 @@ public class eschoonm_khorning_assignment2 {
                 // records if a player attempted a perpendicular line
                 // this could be a little method too
                 if (perp) {
+                    System.out.println("SLOPE IS PERPENDICULAR, NO CHANGE______");
                     if (whoseTurn == PLAYERS[0]) {
                         p1Perp = perp;
                     } else {
