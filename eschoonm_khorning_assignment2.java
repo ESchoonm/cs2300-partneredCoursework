@@ -265,7 +265,7 @@ public class eschoonm_khorning_assignment2 {
     public static void determineWinner(int score1, int score2) {
 
         System.out.println("Player 1 Score: " + score1);
-        System.out.println("Player 1 Score: " + score2);
+        System.out.println("Player 2 Score: " + score2);
 
         if (score1 > score2) {
             System.out.println("Player 1 Wins");
