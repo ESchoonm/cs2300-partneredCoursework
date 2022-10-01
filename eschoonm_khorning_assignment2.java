@@ -214,7 +214,7 @@ public class eschoonm_khorning_assignment2 {
      */
     public static double calculateSlope(int sr, int sc, int er, int ec) {
 
-        boolean isVertical = checkForVertical(sr, sc, er, ec);// checks for vertical slope
+        boolean isVertical = checkForVertical(changeInRow(sr, er));// checks for vertical slope
         double slope; // initilizes values
         if (!isVertical) { // not vertical slope
             slope = (ec - sc) / (er - sr);// calculate slope
@@ -313,11 +313,17 @@ public class eschoonm_khorning_assignment2 {
             // other
             // so we calculate the negative reciprocal of the player's line
             double perpLine = 0;
-            if (lineSlope != Double.NaN && lineSlope != 0) {// if the lines slope is not Nan and not 0
+            if(Double.isNaN(lineSlope)) {
+            	perpLine = 0;
+            }
+            else if (lineSlope != 0) {// if the lines slope is not Nan and not 0
                 perpLine = -1 / lineSlope;
             } else if (lineSlope == 0) {// if it is zero
                 perpLine = Double.NaN;// slope is vertical
+            } else {
+            	perpLine = 0;
             }
+           
 
             // checks each slope in the queue against the perpendicular slope
             // sets flag to true if a match is found
@@ -441,8 +447,8 @@ public class eschoonm_khorning_assignment2 {
      * @param ec
      * @return
      */
-    public static Boolean checkForVertical(int sr, int sc, int er, int ec) {
-        if (changeInRow(sr, er) == 0) {
+    public static Boolean checkForVertical(int changeInRow) {
+        if (changeInRow == 0) {
             return true; // checks for vertical slope
         }
         return false;
