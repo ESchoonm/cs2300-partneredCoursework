@@ -34,4 +34,5 @@ D  Completed
 THINGS TO DO
     Add a control method
     printGameBoard to File, ask user for file destination. 
+    Test second file, as well
 
