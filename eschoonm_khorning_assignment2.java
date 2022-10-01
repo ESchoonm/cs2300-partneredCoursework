@@ -17,11 +17,11 @@ public class eschoonm_khorning_assignment2 {
         final String FILE_P2_4 = "p2-4.txt";
         final String FILE_P2_5 = "p2-5.txt";
 
-        Queue<Double> slopes = new LinkedList<Double>(); // arraylist for the slopes previously calculated
-        ArrayList<Integer[]> startCells = new ArrayList<>();// Queue containing values to check double starting values
-        ArrayList<Integer[]> endCells = new ArrayList<>();
+        Queue<Double> slopes = new LinkedList<Double>(); // Queue for the slopes previously calculated
+        ArrayList<Integer[]> startCells = new ArrayList<>();// ArrayList containing values to check starting values
+        ArrayList<Integer[]> endCells = new ArrayList<>();// ArrayList containing values to check ending values
 
-        // output for the result
+        // let the user set the output file name
         System.out.println("Please enter the full pathname, or just the filename, and it will be created in this file");
         Scanner scanner = new Scanner(System.in);
         String destinationFile = scanner.nextLine().trim();
@@ -29,7 +29,7 @@ public class eschoonm_khorning_assignment2 {
         scanner.close();
 
         // create and open the test file for reading
-        File moves = new File(FILE_P2_5);
+        File moves = new File(FILE_P2_1);
         Scanner inputMoves = new Scanner(moves);
 
         int boardSize = inputMoves.nextInt(); // gives the NxN board dimensions
@@ -52,7 +52,7 @@ public class eschoonm_khorning_assignment2 {
         }
 
         // compare player scores and display winner
-        int winner = determineWinner(player1.getScore(), player2.getScore());
+        int winner = determineWinner(player1, player2);
         saveToFile(destFile, board, winner);
 
         inputMoves.close();
@@ -362,18 +362,21 @@ public class eschoonm_khorning_assignment2 {
      * @param score1 //player1's final score
      * @param score2 //player2's final score
      */
-    public static int determineWinner(int score1, int score2) {
+    public static int determineWinner(Player player1, Player player2) {
         int winner = 0;
-        System.out.println("Player 1 Score: " + score1);
-        System.out.println("Player 2 Score: " + score2);
+        
+        int p1Score = player1.getScore();
+        int p2Score = player2.getScore();
+        System.out.println("Player 1 Score: " + p1Score);
+        System.out.println("Player 2 Score: " + p2Score);
 
-        if (score1 > score2) {
+        if (p1Score > p2Score) {
             System.out.println("Player 1 Wins");
-            winner = 1;
+            winner = player1.getPlayerValue();
 
-        } else if (score1 < score2) {
+        } else if (p1Score < p2Score) {
             System.out.println("Player 2 Wins");
-            winner = 2;
+            winner = player2.getPlayerValue();
 
         } else {
             System.out.println("It's a tie");
