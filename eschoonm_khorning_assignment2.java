@@ -9,118 +9,171 @@ import java.util.Queue;
 public class eschoonm_khorning_assignment2 {
     public static void main(String[] args) throws IOException {
 
-        final int[] PLAYERS = { 1, 2 }; // constant containing the players' corresponding numbers
+    	//constants for file names
+    	final String FILE_P2_1 = "p2-1.txt";
+    	final String FILE_P2_2 = "p2-2.txt";
 
         Queue<Double> slopes = new LinkedList<Double>(); // arraylist for the slopes previously calculated
         ArrayList<Integer[]> startCells = new ArrayList<>();// Queue containing values to check double starting values
         ArrayList<Integer[]> endCells = new ArrayList<>();
+        
         // create and open the test file for reading
-        String fileName = "p2-2.txt";
-        File moves = new File(fileName);
+        File moves = new File(FILE_P2_2);
         Scanner inputMoves = new Scanner(moves);
 
         int boardSize = inputMoves.nextInt(); // gives the NxN board dimensions
         int K = inputMoves.nextInt(); // past # of turns we are comparing start/end cells
         Board board = new Board(boardSize); // creates the game board with given dimensions
-
-        int emptyCells = boardSize * boardSize; // when game starts, all cells on board are empty
-        int p1Score = 0; // counter for Player 1's score
-        int p2Score = 0; // counter for Player 1's score
-
-        // keeps track of whether either player has played an invalid perpendicular move
-        boolean p1Perp = false;
-        boolean p2Perp = false;
-
-        // Player 1 starts- this keeps track of whose turn it is
-        int whoseTurn = PLAYERS[0];
+        
+        //create player1 & player 2; player 1 has the first turn
+        Player player1 = new Player(1, false);
+        Player player2 = new Player(2, true);
+        
+        boolean isGameOver = false; //flag that changes when one or both end conditions are met
 
         // loop that runs until there are no more moves in the file, or until game board
         // is full
-        while (inputMoves.hasNext() && (p1Perp == false || p2Perp == false) && emptyCells != 0) {
-
-            // reads the starting/ending cell coordinates from file
-            int sr = inputMoves.nextInt() - 1;
-            int sc = inputMoves.nextInt() - 1;
-            int er = inputMoves.nextInt() - 1;
-            int ec = inputMoves.nextInt() - 1;
-
-            // test queues, need to write function that includes k however
-            // startCells.offer(2);
-            // startCells.offer(1);
-            // endCells.offer(4);
-            // endCells.offer(5);
-
-            boolean validCell = isValidCell(sr, sc, er, ec, K, startCells, endCells);
-
-            if (validCell) {
-
-                double currentSlope = calculateSlope(sr, sc, er, ec);
-                boolean perp = isPerpendicular(currentSlope, slopes);
-
-                // records if a player attempted a perpendicular line
-                // this could be a little method too
-                if (perp) {
-                    System.out.println("SLOPE IS PERPENDICULAR, NO CHANGE______");
-                    if (whoseTurn == PLAYERS[0]) {
-                        p1Perp = perp;
-                    } else {
-                        p2Perp = perp;
-                    }
-                } else {
-                    // adds the previous slope to the arraylist of slopes
-                    addSlope(slopes, currentSlope, K);
-                    // updates the queues, based off of q values, to check start and end values
-                    updateListswithValidPoint(sr, sc, er, ec, startCells, endCells);
-                    int dr = changeInRow(sr, er);
-                    int dc = changeInColumn(sc, ec);
-                    ArrayList<Integer[]> valuesToChange = new ArrayList<>();
-                    if (dr > dc) {
-                        // passing argument as 0 to plot(x,y)
-                        valuesToChange = brenshamsAlgorithm(sr, sc, er, ec, dr, dc, 0);
-                    }
-                    // if slope is greater than or equal to 1
-                    else {
-                        // passing argument as 1 to plot (y,x)
-                        valuesToChange = brenshamsAlgorithm(sc, sr, ec, er, dc, dr, 1);
-                    }
-                    board.addMove(valuesToChange, whoseTurn);
-                }
-            }
-
-            whoseTurn = determinePlayerTurn(whoseTurn, PLAYERS);
-            emptyCells = countValueOnBoard(board, 0);
-
-            // display current board and results
-            board.printGameBoard();
-            p1Score = countValueOnBoard(board, PLAYERS[0]);
-            p2Score = countValueOnBoard(board, PLAYERS[1]);
-
-            System.out.println();
+        while (inputMoves.hasNext() && !isGameOver) {
+        	
+        	//all gameplay logic is located inside controlBoard method
+        	isGameOver = controlBoard(inputMoves, player1, player2, K, board, startCells, endCells, slopes);
+           
         }
 
-        determineWinner(p1Score, p2Score);
+        //compare player scores and display winner
+        determineWinner(player1.getScore(), player2.getScore());
 
         inputMoves.close();
+        
     }// main
+    
+    
+    
+    /**
+     * @author KHorning
+     *         This method contains all the logic of a player drawing a line on their turn.
+     * 
+     * @param moves
+     * @param player1
+     * @param player2
+     * @param K
+     * @param gameBoard
+     * @param startCells
+     * @param endCells
+     * @param slopes
+     * @return isGameOver
+     */
+    public static boolean controlBoard(Scanner moves, Player player1, Player player2, int K, Board gameBoard, 
+    		ArrayList<Integer[]> startCells, ArrayList<Integer[]> endCells, Queue<Double> slopes) {
+    	
+    	// Player 1 starts- this keeps track of whose turn it is
+    	int whoseTurn = determinePlayerTurn(player1, player2);
+    	
+    	int emptyCells = gameBoard.getSize() * gameBoard.getSize(); // when game starts, all cells on board are empty
+    	
+    	// reads the starting/ending cell coordinates from file
+        int sr = moves.nextInt() - 1;
+        int sc = moves.nextInt() - 1;
+        int er = moves.nextInt() - 1;
+        int ec = moves.nextInt() - 1;
+
+        boolean validCell = isValidCell(sr, sc, er, ec, K, startCells, endCells);
+
+        if (validCell) {
+
+            double currentSlope = calculateSlope(sr, sc, er, ec);
+            boolean perp = isPerpendicular(currentSlope, slopes);
+
+            // records if a player attempted a perpendicular line
+            // this could be a little method too
+            if (perp) {
+                System.out.println("SLOPE IS PERPENDICULAR, NO CHANGE______");
+                if (player1.isTurn()) {
+                	player1.attemptedPerpendicular();
+                } else {
+                	player2.attemptedPerpendicular();
+                }
+                
+                
+            } else {
+                // adds the previous slope to the arraylist of slopes
+                addSlope(slopes, currentSlope, K);
+                // updates the queues, based off of q values, to check start and end values
+                updateListswithValidPoint(sr, sc, er, ec, startCells, endCells);
+                int dr = changeInRow(sr, er);
+                int dc = changeInColumn(sc, ec);
+                ArrayList<Integer[]> valuesToChange = new ArrayList<>();
+                if (dr > dc) {
+                    // passing argument as 0 to plot(x,y)
+                    valuesToChange = brenshamsAlgorithm(sr, sc, er, ec, dr, dc, 0);
+                }
+                // if slope is greater than or equal to 1
+                else {
+                    // passing argument as 1 to plot (y,x)
+                    valuesToChange = brenshamsAlgorithm(sc, sr, ec, er, dc, dr, 1);
+                }
+                gameBoard.addMove(valuesToChange, whoseTurn);
+            }
+        }
+
+       // whoseTurn = determinePlayerTurn(player1, player2);
+        emptyCells = countValueOnBoard(gameBoard, 0);
+
+        // display current board 
+        gameBoard.printGameBoard();
+        
+        //calculate current scores and update them
+        int p1Score = countValueOnBoard(gameBoard, player1.getPlayerValue());
+        int p2Score = countValueOnBoard(gameBoard, player2.getPlayerValue());
+        player1.updateScore(p1Score);
+        player2.updateScore(p2Score);
+
+        System.out.println();
+        
+        //check to see if end conditions are met
+    	boolean isGameOver = gameOver(emptyCells, player1.hasPlayedPerpendicular(), player2.hasPlayedPerpendicular());
+    	
+    	return isGameOver;
+    	
+    	
+    }//controlBoard
+    
+    
+    
+    
 
     /**
      * @author KHorning
-     *         determines which player's turn it is on the next round
+     *         This method determines whose turn it currently is and updates each Player's variables
+     *         so the next player gets their turn. It returns the value that represents whichever player
+     *         now gets their turn.
      * 
-     * @param currentPlayer //this is the player who just had their turn
-     * @param players       //array of our players' numbers
+     * @param player1 		//Player object representing our first player
+     * @param player2 		//Player object representing our second player
+     * @return playerValue	//value in board array that represents current player( 1 for player 1, 2 for player 2)
      */
-    public static int determinePlayerTurn(int currentPlayer, int[] players) {
-
-        int nextTurn = 0;
-
-        if (currentPlayer == players[0]) {
-            nextTurn = players[1];
-        } else {
-            nextTurn = players[0];
+    public static int determinePlayerTurn(Player player1, Player player2) {
+    	
+    	int playerValue = 0;	//holds the integer value that represents the current player
+        
+    	//if player1 just had their turn, set player1 turn to false and player2 turn to true
+        if(player1.isTurn()) {
+        	player1.myTurn(false);
+        	player2.myTurn(true);
+        	
+        	playerValue = player2.getPlayerValue();
         }
-        return nextTurn;
-    }
+        
+      //if player2 just had their turn, set player2 turn to false and player1 turn to true
+        else {
+        	player2.myTurn(false);
+        	player1.myTurn(true);
+        	
+        	playerValue = player1.getPlayerValue();
+
+        }
+        return playerValue;
+    }//determinePlayerTurn
 
     /**
      * @Author eschoonm
@@ -195,7 +248,37 @@ public class eschoonm_khorning_assignment2 {
         }
 
         return valid;
-    }
+    }//isValidCell
+    
+    
+    
+    
+    /**
+     * @author KHorning
+     *         This method checks the end conditions for game over and returns a boolean to indicate 
+     *         if the game continues or not. If there are no empty cells remaining, or if both players
+     *         have attempted a perpendicular line, the game ends. 
+     * 
+     * @param numEmptyCells	//integer number of empty cells remaining on the board
+     * @param p1Perpendicular	//boolean that indicates if player1 has attempted a perpendicular line
+     * @param p2Perpendicular	//boolean that indicates if player2 has attempted a perpendicular line
+     * @return isGameOver		//indicates if end conditions have been met and game should end
+     */
+    public static boolean gameOver(int numEmptyCells, boolean p1Perpendicular, boolean p2Perpendicular) {
+    	
+    	boolean isGameOver = false;
+    	
+    	//if either of the end conditions are met, set isGameOver to true
+    	if(numEmptyCells == 0 || (p1Perpendicular && p2Perpendicular)) {
+    		isGameOver = true;
+    	}
+    	
+    	return isGameOver;
+    }//gameOver
+    
+    
+    
+    
 
     /**
      * @author KHorning
@@ -206,7 +289,7 @@ public class eschoonm_khorning_assignment2 {
      *         eschoonm, added vertical line compatability
      * 
      * @param lineSlope //slope of the line of the player's current move
-     * @param allLines  //ArrayList containing the slopes of all lines played so far
+     * @param slopesToCheck  //Queue containing the slopes of all lines played so far
      * @return
      */
     public static boolean isPerpendicular(double lineSlope, Queue<Double> slopesToCheck) {
@@ -261,7 +344,8 @@ public class eschoonm_khorning_assignment2 {
      *         Compares the players' scores and determines who the winner is
      *         Also accounts for a tie
      * 
-     * @param gameBoard //the game board with all current moves
+     * @param score1	//player1's final score
+     * @param score2	//player2's final score
      */
     public static void determineWinner(int score1, int score2) {
 
@@ -273,6 +357,7 @@ public class eschoonm_khorning_assignment2 {
 
         } else if (score1 < score2) {
             System.out.println("Player 2 Wins");
+            
         } else {
             System.out.println("It's a tie");
 
@@ -287,6 +372,8 @@ public class eschoonm_khorning_assignment2 {
      *         empty cells
      * 
      * @param gameBoard //the game board with all current moves
+     * @param countedValue	//which value on the board should be counted- player1, player2 or empty cells
+     * @return cells	//counter of specified value on board
      */
     public static int countValueOnBoard(Board gameBoard, int countedValue) {
 
@@ -307,7 +394,7 @@ public class eschoonm_khorning_assignment2 {
 
         return cells;
 
-    }// countRemainingCells
+    }// countValueOnBoard
 
     /**
      * @author eschoonm
@@ -394,11 +481,12 @@ public class eschoonm_khorning_assignment2 {
 }// assignment2
 
 class Board {
-    private int[][] gameBoard; // my thoughts we to use and int array with 0 being initial, 1, "O", 2, "X"
-    private int size;
+    private int[][] gameBoard; // 2D array that represents the game board
+    private int size;	//represents the dimensions of the board (size x size)
 
     Board(int size) {
         this.size = size;
+        
         gameBoard = new int[size][size];
     }
 
@@ -460,4 +548,62 @@ class Board {
     public int getSize() {
         return size;
     }
-}
+}//Board
+
+
+
+/**
+ * @author KHorning
+ *         Represents a player object. Each player has an integer number that represents their value on the
+ *         board. We keep track of the player's current score, if it is their turn, and if they have played
+ *         a perpendicular move.
+ */
+class Player {
+	
+	private int valueOnBoard; 	//integer value that represents the player on the game board
+	private int score;	//player's current score in game
+	private boolean turn;	//indicates if it is the player's turn or not
+	private boolean playedPerpendicular;	//indicates if the player has tried a perpendicular line
+	
+	//constructor sets score to 0 and playedPerpendicular to false since gameplay hasn't started yet
+	//turn is set when Player is created; P1 goes first
+	public Player(int valueOnBoard, boolean turn) {
+		this.valueOnBoard = valueOnBoard;
+		score = 0;
+		this.turn= turn;
+		playedPerpendicular = false;
+	}
+	
+	//getters
+	public int getPlayerValue() {
+		return valueOnBoard;
+	}
+	
+	public int getScore() {
+		return score;
+	}
+	
+	public boolean isTurn() {
+		return turn;
+	}
+	
+	public boolean hasPlayedPerpendicular() {
+		return playedPerpendicular;
+	}
+	
+	//receives the current score calculated by countValueOnBoard method and updates player's score
+	public void updateScore(int currentScore) {
+		score = currentScore;
+	}
+	
+	//sets the perpendicular flag to true if the player attempts to play a perpendicular line
+	public void attemptedPerpendicular() {
+		playedPerpendicular = true;
+	}
+	
+	//sets the player's turn to true or false
+	public void myTurn(boolean yesOrNo) {
+		turn = yesOrNo;
+	}
+	
+}//Player
