@@ -13,6 +13,9 @@ public class eschoonm_khorning_assignment2 {
         // constants for file names
         final String FILE_P2_1 = "p2-1.txt";
         final String FILE_P2_2 = "p2-2.txt";
+        final String FILE_P2_3 = "p2-3.txt";
+        final String FILE_P2_4 = "p2-4.txt";
+        final String FILE_P2_5 = "p2-5.txt";
 
         Queue<Double> slopes = new LinkedList<Double>(); // arraylist for the slopes previously calculated
         ArrayList<Integer[]> startCells = new ArrayList<>();// Queue containing values to check double starting values
@@ -26,7 +29,7 @@ public class eschoonm_khorning_assignment2 {
         scanner.close();
 
         // create and open the test file for reading
-        File moves = new File(FILE_P2_2);
+        File moves = new File(FILE_P2_5);
         Scanner inputMoves = new Scanner(moves);
 
         int boardSize = inputMoves.nextInt(); // gives the NxN board dimensions
