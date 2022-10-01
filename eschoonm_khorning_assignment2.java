@@ -21,9 +21,10 @@ public class eschoonm_khorning_assignment2 {
         Scanner scanner = new Scanner(System.in);
         String destinationFile = scanner.nextLine().trim();
         File destFile = new File(destinationFile);
+        scanner.close();
 
         // create and open the test file for reading
-        String fileName = "p2-2.txt";
+        String fileName = "p2-1.txt";
         File moves = new File(fileName);
         Scanner inputMoves = new Scanner(moves);
 
