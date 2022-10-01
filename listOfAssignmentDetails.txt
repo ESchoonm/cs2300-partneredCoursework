@@ -14,7 +14,7 @@ D  Completed
 -p Main Class
     -  Main
     -D  checkPerpendicular Slopes
-    -  endcondition
+    -D  endcondition
         #all cells are filled, or two perpendicular plays in a row
     -K  read input from file
 	#K I started this in a while loop in main, but if there's a way to put it in
