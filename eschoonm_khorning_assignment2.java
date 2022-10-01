@@ -18,7 +18,7 @@ public class eschoonm_khorning_assignment2 {
         ArrayList<Integer[]> endCells = new ArrayList<>();
         
         // create and open the test file for reading
-        File moves = new File(FILE_P2_2);
+        File moves = new File(FILE_P2_1);
         Scanner inputMoves = new Scanner(moves);
 
         int boardSize = inputMoves.nextInt(); // gives the NxN board dimensions
@@ -53,15 +53,15 @@ public class eschoonm_khorning_assignment2 {
      * @author KHorning
      *         This method contains all the logic of a player drawing a line on their turn.
      * 
-     * @param moves
-     * @param player1
-     * @param player2
-     * @param K
-     * @param gameBoard
-     * @param startCells
-     * @param endCells
-     * @param slopes
-     * @return isGameOver
+     * @param moves	//Scanner that reads from the file
+     * @param player1	//Player object representing player 1
+     * @param player2	//Player object representing player 2
+     * @param K		//the number of previous turns we have to check against
+     * @param gameBoard		//the board we are playing the game on
+     * @param startCells	//Integer array of starting cells that have been played in
+     * @param endCells		//Integer array of ending cells that have been played in
+     * @param slopes		//Queue that holds the slopes of the previous lines that have been played
+     * @return isGameOver	//flag that indicates if gameplay should continue
      */
     public static boolean controlBoard(Scanner moves, Player player1, Player player2, int K, Board gameBoard, 
     		ArrayList<Integer[]> startCells, ArrayList<Integer[]> endCells, Queue<Double> slopes) {
