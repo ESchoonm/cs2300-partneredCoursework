@@ -29,5 +29,9 @@ D  Completed
     -K  determine Winner
         #the one with the most amount of cells covered
     K  calculate the slope of line
-    -E calculate which cells are highlighted
+    -E calculate which cells are 
+    
+THINGS TO DO
+    Add a control method
+    printGameBoard to File, ask user for file destination. 
 

@@ -100,7 +100,7 @@ public class eschoonm_khorning_assignment2 {
         determineWinner(p1Score, p2Score);
 
         inputMoves.close();
-    }
+    }// main
 
     /**
      * @author KHorning
@@ -411,9 +411,9 @@ class Board {
         for (int i = 0; i < size; i++) { // for each row
             for (int j = 0; j < size; j++) { // for every column
                 if (gameBoard[i][j] == 1) { // if the value is 1, print out "O "
-                    System.out.print("O ");
-                } else if (gameBoard[i][j] == 2) {// if the value is 2, print out "X "
                     System.out.print("X ");
+                } else if (gameBoard[i][j] == 2) {// if the value is 2, print out "X "
+                    System.out.print("O ");
                 } else {
                     System.out.print("- "); // otherwise -, means no value has been assigned
                 }
