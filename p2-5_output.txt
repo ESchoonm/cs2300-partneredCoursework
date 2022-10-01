@@ -1,5 +1,5 @@
 GameBoard: 
 X X - 
-O X O 
-O O O 
-Player 2 Wins
+- X - 
+- X X 
+Player 1 Wins
