@@ -3,6 +3,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Queue;
 
@@ -14,6 +15,13 @@ public class eschoonm_khorning_assignment2 {
         Queue<Double> slopes = new LinkedList<Double>(); // arraylist for the slopes previously calculated
         ArrayList<Integer[]> startCells = new ArrayList<>();// Queue containing values to check double starting values
         ArrayList<Integer[]> endCells = new ArrayList<>();
+
+        System.out.println("Please enter the full pathname, including the file name: " +
+                "For Example, /home/eschoonm/filename.txt");
+        Scanner scanner = new Scanner(System.in);
+        String destinationFile = scanner.nextLine().trim();
+        File destFile = new File(destinationFile);
+
         // create and open the test file for reading
         String fileName = "p2-2.txt";
         File moves = new File(fileName);
@@ -43,12 +51,6 @@ public class eschoonm_khorning_assignment2 {
             int sc = inputMoves.nextInt() - 1;
             int er = inputMoves.nextInt() - 1;
             int ec = inputMoves.nextInt() - 1;
-
-            // test queues, need to write function that includes k however
-            // startCells.offer(2);
-            // startCells.offer(1);
-            // endCells.offer(4);
-            // endCells.offer(5);
 
             boolean validCell = isValidCell(sr, sc, er, ec, K, startCells, endCells);
 
@@ -98,7 +100,8 @@ public class eschoonm_khorning_assignment2 {
             System.out.println();
         }
 
-        determineWinner(p1Score, p2Score);
+        int winner = determineWinner(p1Score, p2Score);
+        saveToFile(destFile, board, winner);
 
         inputMoves.close();
     }// main
@@ -263,20 +266,22 @@ public class eschoonm_khorning_assignment2 {
      * 
      * @param gameBoard //the game board with all current moves
      */
-    public static void determineWinner(int score1, int score2) {
-
+    public static int determineWinner(int score1, int score2) {
+        int winner = 0;// indicates a tie
         System.out.println("Player 1 Score: " + score1);
         System.out.println("Player 2 Score: " + score2);
 
         if (score1 > score2) {
             System.out.println("Player 1 Wins");
-
+            winner = 1;
         } else if (score1 < score2) {
             System.out.println("Player 2 Wins");
+            winner = 2;
         } else {
             System.out.println("It's a tie");
 
         }
+        return winner;
 
     }// determineWinner
 
@@ -390,6 +395,36 @@ public class eschoonm_khorning_assignment2 {
 
         return pointsToHighlight;
     }// brenshamsAlgorithm
+
+    public static void saveToFile(File file, Board board, int winner) throws IOException {
+        FileWriter fileWriter = new FileWriter(file);
+
+        fileWriter.append("GameBoard: \n");
+        // print out the gameBoard
+        for (int i = 0; i < board.getSize(); i++) { // for each row
+            for (int j = 0; j < board.getSize(); j++) { // for every column
+                if (board.getValueAtCell(i, j) == 1) { // if the value is 1, print out "O "
+                    fileWriter.append("X ");
+                } else if (board.getValueAtCell(i, j) == 2) {// if the value is 2, print out "X "
+                    fileWriter.append("O ");
+                } else {
+                    fileWriter.append("- "); // otherwise -, means no value has been assigned
+                }
+            }
+            fileWriter.append("\n");// new line indicating a new row has started
+        }
+        // prints out the winner
+        if (winner == 1) {
+            fileWriter.append("Player 1 Wins\n");
+        } else if (winner == 2) {
+            fileWriter.append("Player 2 Wins\n");
+        } else {
+            fileWriter.append("It's a tie\n");
+
+        }
+        fileWriter.close();
+
+    }
 
 }// assignment2
 
