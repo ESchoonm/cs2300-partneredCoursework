@@ -1,0 +1,23 @@
+Evie
+    printGameBoard method
+    Save/ Add move to Gameboard
+    isvalid - start and end cells
+    add play to Gameboard
+    determine which cells are highlighted
+        * brenshamsAlgorithm
+    add slope to queue of slopes, with k value
+    isvertical method
+    change inRow and change in column
+    saveToFile method
+
+Kacy
+    Control method
+    Read in Files
+    checkPerpendicular method
+    isvalid - perpendicular
+    determinewinner
+    calcute slope of the line
+    determinePlayerTurn
+    gameover method
+    count values on board
+    Player Class
