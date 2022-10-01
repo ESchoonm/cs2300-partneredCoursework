@@ -127,7 +127,7 @@ public class eschoonm_khorning_assignment2 {
             }
         }
 
-        //update the number of empty cells on the board
+        // update the number of empty cells on the board
         emptyCells = countValueOnBoard(gameBoard, 0);
 
         // display current board
@@ -313,17 +313,15 @@ public class eschoonm_khorning_assignment2 {
             // other
             // so we calculate the negative reciprocal of the player's line
             double perpLine = 0;
-            if(Double.isNaN(lineSlope)) {
-            	perpLine = 0;
-            }
-            else if (lineSlope != 0) {// if the lines slope is not Nan and not 0
+            if (Double.isNaN(lineSlope)) {
+                perpLine = 0;
+            } else if (lineSlope != 0) {// if the lines slope is not Nan and not 0
                 perpLine = -1 / lineSlope;
             } else if (lineSlope == 0) {// if it is zero
                 perpLine = Double.NaN;// slope is vertical
             } else {
-            	perpLine = 0;
+                perpLine = 0;
             }
-           
 
             // checks each slope in the queue against the perpendicular slope
             // sets flag to true if a match is found
