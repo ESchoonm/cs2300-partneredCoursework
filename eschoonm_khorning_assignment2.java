@@ -1,3 +1,14 @@
+/*Name: Kacy Horning  and Evie Schoonmaker
+ * Class: CS2300
+ * Due: 10/3/22
+ * Programming Assignment #2
+ * Description: We are creating a program that simulates a game called linear domination.
+ * Each player draws a line on a grid of specified size on their turn. If the line is perpendicular
+ * to a past move within the specified K turns, it is invalid. If both players attempt to draw 
+ * a perpendicular line, the game ends. It also ends if there are no empty cells left. The player 
+ * with the most cells wins. 
+ */
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -247,13 +258,15 @@ public class eschoonm_khorning_assignment2 {
         for (int i = 0; i < startCells.size(); i++) {
             if (startCells.get(i)[0] == sr && startCells.get(i)[1] == sc) {
                 System.out.println("REPEATED START VALUE_______________");
-                return false;
+                valid = false;
             }
+            
+            
         }
         for (int i = 0; i < endCells.size(); i++) {
             if (endCells.get(i)[0] == sr && endCells.get(i)[1] == sc) {
                 System.out.println("REPEATED END VALUE_______________");
-                return false;
+                valid = false;
             }
         }
 
