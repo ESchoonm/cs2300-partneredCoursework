@@ -16,17 +16,16 @@ public class eschoonm_khorning_assignment2 {
         final String FILE_P2_3 = "p2-3.txt";
         final String FILE_P2_4 = "p2-4.txt";
         final String FILE_P2_5 = "p2-5.txt";
+        final String OUTPUT_FILE = "_output";
 
         Queue<Double> slopes = new LinkedList<Double>(); // Queue for the slopes previously calculated
         ArrayList<Integer[]> startCells = new ArrayList<>();// ArrayList containing values to check starting values
         ArrayList<Integer[]> endCells = new ArrayList<>();// ArrayList containing values to check ending values
 
         // let the user set the output file name
-        System.out.println("Please enter the full pathname, or just the filename, and it will be created in this file");
-        Scanner scanner = new Scanner(System.in);
-        String destinationFile = scanner.nextLine().trim();
+        String destinationFile = FILE_P2_1 + OUTPUT_FILE;
         File destFile = new File(destinationFile);
-        scanner.close();
+        
 
         // create and open the test file for reading
         File moves = new File(FILE_P2_1);
@@ -319,9 +318,7 @@ public class eschoonm_khorning_assignment2 {
                 perpLine = -1 / lineSlope;
             } else if (lineSlope == 0) {// if it is zero
                 perpLine = Double.NaN;// slope is vertical
-            } else {
-                perpLine = 0;
-            }
+            } 
 
             // checks each slope in the queue against the perpendicular slope
             // sets flag to true if a match is found
