@@ -1,3 +1,4 @@
+package Assignment2;
 /*Name: Kacy Horning  and Evie Schoonmaker
  * Class: CS2300
  * Due: 10/3/22
